@@ -20,7 +20,9 @@ router.beforeEach((to, from, next) => {
   }
   next()
 })
-router.afterEach(() => { NProgress.done() })
+router.afterEach(() => {
+  NProgress.done()
+})
 new Vue({
   el: '#app',
   router,

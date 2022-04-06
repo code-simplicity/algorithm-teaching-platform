@@ -2,7 +2,7 @@
 	<el-row :gutter="20">
 		<el-col :xs="24" :sm="24" :md="getSpan()" :lg="getSpan()" :xl="getSpan()">
 			<el-card class="box-card" shadow="hover">
-				<div slot="header" style="text-align: center;">
+				<div slot="header" style="text-align: center">
 					<span>console</span>
 					<el-button
 						style="float: right; padding: 3px 0"
@@ -11,7 +11,7 @@
 						>clear</el-button
 					>
 				</div>
-				<div class="consoleDiv" style="text-align: left;">
+				<div class="consoleDiv" style="text-align: left">
 					<el-row v-if="method === 'select'">
 						<el-col :span="8"
 							><el-tag>i:{{ current.outside }}</el-tag></el-col
@@ -53,7 +53,7 @@
 		</el-col>
 		<el-col :xs="24" :sm="24" :md="getSpan()" :lg="getSpan()" :xl="getSpan()">
 			<el-card class="box-card" shadow="hover">
-				<div slot="header" style="text-align: center;">
+				<div slot="header" style="text-align: center">
 					<span>code</span>
 				</div>
 				<div class="consoleDiv">
@@ -225,7 +225,7 @@ private void sink(Comparable[] a,int k,int N){
 			v-if="method === 'quick'"
 		>
 			<el-card class="box-card" shadow="hover">
-				<div slot="header" style="text-align: center;">
+				<div slot="header" style="text-align: center">
 					<span>函数栈</span>
 				</div>
 				<div class="consoleDiv">
@@ -263,7 +263,7 @@ private void sink(Comparable[] a,int k,int N){
 			v-if="method === 'merge'"
 		>
 			<el-card class="box-card" shadow="hover">
-				<div slot="header" style="text-align: center;">
+				<div slot="header" style="text-align: center">
 					<span>函数栈</span>
 				</div>
 				<div class="consoleDiv">
@@ -301,7 +301,7 @@ private void sink(Comparable[] a,int k,int N){
 			v-if="method === 'quick3way'"
 		>
 			<el-card class="box-card" shadow="hover">
-				<div slot="header" style="text-align: center;">
+				<div slot="header" style="text-align: center">
 					<span>函数栈</span>
 				</div>
 				<div class="consoleDiv">

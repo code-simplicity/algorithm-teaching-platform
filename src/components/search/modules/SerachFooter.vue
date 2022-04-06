@@ -1,26 +1,31 @@
 <template>
-  <el-row :gutter="20">
-    <el-col :xs="24" :sm="24" :md="getSpan()" :lg="getSpan()" :xl="getSpan()">
-      <el-card class="box-card" shadow="hover">
-        <div slot="header" style="text-align: center;">
-          <span>console</span>
-          <el-button style="float: right; padding: 3px 0" type="text" @click="clear">clear</el-button>
-        </div>
-        <div class="consoleDiv" style="text-align: left;">
-          <div v-for="(text,index)  in textArr" :key="index">
-            <el-link :underline="false" type="primary">{{text}}</el-link>
-          </div>
-        </div>
-      </el-card>
-    </el-col>
-    <el-col :xs="24" :sm="24" :md="getSpan()" :lg="getSpan()" :xl="getSpan()">
-      <el-card class="box-card" shadow="hover">
-        <div slot="header" style="text-align: center;">
-          <span>code</span>
-        </div>
-        <div class="consoleDiv">
-          <code v-if="method==='SequentialSearch'">
-                <pre>
+	<el-row :gutter="20">
+		<el-col :xs="24" :sm="24" :md="getSpan()" :lg="getSpan()" :xl="getSpan()">
+			<el-card class="box-card" shadow="hover">
+				<div slot="header" style="text-align: center">
+					<span>console</span>
+					<el-button
+						style="float: right; padding: 3px 0"
+						type="text"
+						@click="clear"
+						>clear</el-button
+					>
+				</div>
+				<div class="consoleDiv" style="text-align: left">
+					<div v-for="(text, index) in textArr" :key="index">
+						<el-link :underline="false" type="primary">{{ text }}</el-link>
+					</div>
+				</div>
+			</el-card>
+		</el-col>
+		<el-col :xs="24" :sm="24" :md="getSpan()" :lg="getSpan()" :xl="getSpan()">
+			<el-card class="box-card" shadow="hover">
+				<div slot="header" style="text-align: center">
+					<span>code</span>
+				</div>
+				<div class="consoleDiv">
+					<code v-if="method === 'SequentialSearch'">
+						<pre>
 private Node first;
 private class Node {
   Key key;
@@ -42,10 +47,11 @@ public void put(Key key, Value val){
     if(key.equals(x.key))  { x.val = val;return }
   first = new Node(key, val, first);
 }
-                </pre>
-          </code>
-          <code v-else-if="method==='BinarySearch'" >
-                <pre>
+                </pre
+						>
+					</code>
+					<code v-else-if="method === 'BinarySearch'">
+						<pre>
 private Key[] keys;
 private Value[] vals;
 private int N;
@@ -81,10 +87,11 @@ public int rank(Key key){
   }
   return lo;
 }
-                </pre>
-          </code>
-          <code v-else-if="method==='shell'" >
-                <pre>
+                </pre
+						>
+					</code>
+					<code v-else-if="method === 'shell'">
+						<pre>
 int N = a.length;
 int h = 1;
 while(h < N/3) h = 3*h + 1;
@@ -96,10 +103,11 @@ while(h >= 1) {
   }
   h/=3;
 }
-                </pre>
-          </code>
-          <code v-else-if="method==='merge'" >
-                <pre>
+                </pre
+						>
+					</code>
+					<code v-else-if="method === 'merge'">
+						<pre>
 private static Comparable[] aux;
 public static void sort(Comparable[] a){
   aux = new Comparable[a.length];
@@ -123,10 +131,11 @@ private static void merge(Comparable[] a,int lo,int mid,int hi){
     else a[k] = aux[j++];
   }
 }
-                </pre>
-          </code>
-          <code v-else-if="method==='mergeBU'" >
-                <pre>
+                </pre
+						>
+					</code>
+					<code v-else-if="method === 'mergeBU'">
+						<pre>
 private static Comparable[] aux;
 public static void sort(Comparable[] a){
   int N = a.length;
@@ -145,10 +154,11 @@ private static void merge(Comparable[] a,int lo,int mid,int hi){
     else if(less(aux[i],aux[j]) a[k] = aux[i++];
     else a[k] = aux[j++];
 }
-                </pre>
-          </code>
-          <code v-else-if="method==='quick'" >
-                <pre>
+                </pre
+						>
+					</code>
+					<code v-else-if="method === 'quick'">
+						<pre>
 public static void sort(Comparable[] a){
   sort(a,0,a.length-1);
 }
@@ -171,10 +181,11 @@ private static int pratition(Comparable[] a,int lo,int mid,int hi){
   exch(a,lo,j);
   return j;
 }
-                </pre>
-          </code>
-          <code v-else-if="method==='quick3way'" >
-                <pre>
+                </pre
+						>
+					</code>
+					<code v-else-if="method === 'quick3way'">
+						<pre>
 public static void sort(Comparable[] a){
   sort(a,0,a.length-1);
 }
@@ -191,10 +202,11 @@ private static void sort(Comparable[] a,int lo,int hi){
   sort(a,lo,lt - 1)
   sort(a,gt + 1,hi);
 }
-                </pre>
-          </code>
-          <code v-else-if="method==='heap'" >
-                <pre>
+                </pre
+						>
+					</code>
+					<code v-else-if="method === 'heap'">
+						<pre>
 public static void sort(Comparable[] a){
   int N = a.length;
   for(int k = N/2;k>=1;k--) sink(a,k,N);
@@ -213,143 +225,169 @@ private void sink(Comparable[] a,int k,int N){
   }
 }
 
-                </pre>
-          </code>
-        </div>
-      </el-card>
-    </el-col>
-    <el-col :xs="24" :sm="24" :md="getSpan()" :lg="getSpan()" :xl="getSpan()" v-if="method==='quick'">
-      <el-card class="box-card" shadow="hover">
-        <div slot="header" style="text-align: center;">
-          <span>函数栈</span>
-        </div>
-        <div class="consoleDiv">
-          <el-row>
-            <el-col :span="8">
-              <el-tag type="danger">lo</el-tag>
-            </el-col>
-            <el-col :span="8">
-              <el-tag type="danger">j</el-tag>
-            </el-col>
-            <el-col :span="8">
-              <el-tag type="danger">hi</el-tag>
-            </el-col>
-          </el-row>
-          <el-row v-for="(args, index) in stack" :style="getStyle(index)">
-            <el-col :span="8">
-              <el-tag>{{args.lo}}</el-tag>
-            </el-col>
-            <el-col :span="8">
-              <el-tag>{{args.j}}</el-tag>
-            </el-col>
-            <el-col :span="8">
-              <el-tag>{{args.hi}}</el-tag>
-            </el-col>
-          </el-row>
-        </div>
-      </el-card>
-    </el-col>
-    <el-col :xs="24" :sm="24" :md="getSpan()" :lg="getSpan()" :xl="getSpan()" v-if="method==='merge'">
-      <el-card class="box-card" shadow="hover">
-        <div slot="header" style="text-align: center;">
-          <span>函数栈</span>
-        </div>
-        <div class="consoleDiv">
-          <el-row>
-            <el-col :span="8">
-              <el-tag type="danger">lo</el-tag>
-            </el-col>
-            <el-col :span="8">
-              <el-tag type="danger">mid</el-tag>
-            </el-col>
-            <el-col :span="8">
-              <el-tag type="danger">hi</el-tag>
-            </el-col>
-          </el-row>
-          <el-row v-for="(args, index) in stack" :style="getStyle(index)">
-            <el-col :span="8">
-              <el-tag>{{args.lo}}</el-tag>
-            </el-col>
-            <el-col :span="8">
-              <el-tag>{{args.mid}}</el-tag>
-            </el-col>
-            <el-col :span="8">
-              <el-tag>{{args.hi}}</el-tag>
-            </el-col>
-          </el-row>
-        </div>
-      </el-card>
-    </el-col>
-    <el-col :xs="24" :sm="24" :md="getSpan()" :lg="getSpan()" :xl="getSpan()" v-if="method==='quick3way'">
-      <el-card class="box-card" shadow="hover">
-        <div slot="header" style="text-align: center;">
-          <span>函数栈</span>
-        </div>
-        <div class="consoleDiv">
-          <el-row>
-            <el-col :span="6">
-              <el-tag type="danger">lo</el-tag>
-            </el-col>
-            <el-col :span="6">
-              <el-tag type="danger">lt</el-tag>
-            </el-col>
-            <el-col :span="6">
-              <el-tag type="danger">gt</el-tag>
-            </el-col>
-            <el-col :span="6">
-              <el-tag type="danger">hi</el-tag>
-            </el-col>
-          </el-row>
-          <el-row v-for="(args, index) in stack" :style="getStyle(index)">
-            <el-col :span="6">
-              <el-tag>{{args.lo}}</el-tag>
-            </el-col>
-            <el-col :span="6">
-              <el-tag>{{args.lt}}</el-tag>
-            </el-col>
-            <el-col :span="6">
-              <el-tag>{{args.gt}}</el-tag>
-            </el-col>
-            <el-col :span="6">
-              <el-tag>{{args.hi}}</el-tag>
-            </el-col>
-          </el-row>
-        </div>
-      </el-card>
-    </el-col>
-  </el-row>
+                </pre
+						>
+					</code>
+				</div>
+			</el-card>
+		</el-col>
+		<el-col
+			:xs="24"
+			:sm="24"
+			:md="getSpan()"
+			:lg="getSpan()"
+			:xl="getSpan()"
+			v-if="method === 'quick'"
+		>
+			<el-card class="box-card" shadow="hover">
+				<div slot="header" style="text-align: center">
+					<span>函数栈</span>
+				</div>
+				<div class="consoleDiv">
+					<el-row>
+						<el-col :span="8">
+							<el-tag type="danger">lo</el-tag>
+						</el-col>
+						<el-col :span="8">
+							<el-tag type="danger">j</el-tag>
+						</el-col>
+						<el-col :span="8">
+							<el-tag type="danger">hi</el-tag>
+						</el-col>
+					</el-row>
+					<el-row v-for="(args, index) in stack" :style="getStyle(index)">
+						<el-col :span="8">
+							<el-tag>{{ args.lo }}</el-tag>
+						</el-col>
+						<el-col :span="8">
+							<el-tag>{{ args.j }}</el-tag>
+						</el-col>
+						<el-col :span="8">
+							<el-tag>{{ args.hi }}</el-tag>
+						</el-col>
+					</el-row>
+				</div>
+			</el-card>
+		</el-col>
+		<el-col
+			:xs="24"
+			:sm="24"
+			:md="getSpan()"
+			:lg="getSpan()"
+			:xl="getSpan()"
+			v-if="method === 'merge'"
+		>
+			<el-card class="box-card" shadow="hover">
+				<div slot="header" style="text-align: center">
+					<span>函数栈</span>
+				</div>
+				<div class="consoleDiv">
+					<el-row>
+						<el-col :span="8">
+							<el-tag type="danger">lo</el-tag>
+						</el-col>
+						<el-col :span="8">
+							<el-tag type="danger">mid</el-tag>
+						</el-col>
+						<el-col :span="8">
+							<el-tag type="danger">hi</el-tag>
+						</el-col>
+					</el-row>
+					<el-row v-for="(args, index) in stack" :style="getStyle(index)">
+						<el-col :span="8">
+							<el-tag>{{ args.lo }}</el-tag>
+						</el-col>
+						<el-col :span="8">
+							<el-tag>{{ args.mid }}</el-tag>
+						</el-col>
+						<el-col :span="8">
+							<el-tag>{{ args.hi }}</el-tag>
+						</el-col>
+					</el-row>
+				</div>
+			</el-card>
+		</el-col>
+		<el-col
+			:xs="24"
+			:sm="24"
+			:md="getSpan()"
+			:lg="getSpan()"
+			:xl="getSpan()"
+			v-if="method === 'quick3way'"
+		>
+			<el-card class="box-card" shadow="hover">
+				<div slot="header" style="text-align: center">
+					<span>函数栈</span>
+				</div>
+				<div class="consoleDiv">
+					<el-row>
+						<el-col :span="6">
+							<el-tag type="danger">lo</el-tag>
+						</el-col>
+						<el-col :span="6">
+							<el-tag type="danger">lt</el-tag>
+						</el-col>
+						<el-col :span="6">
+							<el-tag type="danger">gt</el-tag>
+						</el-col>
+						<el-col :span="6">
+							<el-tag type="danger">hi</el-tag>
+						</el-col>
+					</el-row>
+					<el-row v-for="(args, index) in stack" :style="getStyle(index)">
+						<el-col :span="6">
+							<el-tag>{{ args.lo }}</el-tag>
+						</el-col>
+						<el-col :span="6">
+							<el-tag>{{ args.lt }}</el-tag>
+						</el-col>
+						<el-col :span="6">
+							<el-tag>{{ args.gt }}</el-tag>
+						</el-col>
+						<el-col :span="6">
+							<el-tag>{{ args.hi }}</el-tag>
+						</el-col>
+					</el-row>
+				</div>
+			</el-card>
+		</el-col>
+	</el-row>
 </template>
 
 <script>
-    export default {
-        name: "SortFooter",
-        props: {
-            textArr:Array,
-            stack:Array,
-            method:String
-        },
-        methods:{
-            clear(){
-                this.$emit("clear");
-            },
-            getSpan(){
-                if (this.method === "quick" || this.method === "quick3way" || this.method === "merge") {
-                    return 8;
-                }
-                return 12;
-            },
-            getStyle(index){
-                if (index === 0){
-                    return "margin-top: 5px;background-color: lightsteelblue;";
-                }
-            },
-        }
-    }
+export default {
+	name: "SortFooter",
+	props: {
+		textArr: Array,
+		stack: Array,
+		method: String,
+	},
+	methods: {
+		clear() {
+			this.$emit("clear");
+		},
+		getSpan() {
+			if (
+				this.method === "quick" ||
+				this.method === "quick3way" ||
+				this.method === "merge"
+			) {
+				return 8;
+			}
+			return 12;
+		},
+		getStyle(index) {
+			if (index === 0) {
+				return "margin-top: 5px;background-color: lightsteelblue;";
+			}
+		},
+	},
+};
 </script>
 
 <style scoped>
-  .consoleDiv{
-    height: 210px;
-    overflow: auto;
-  }
+.consoleDiv {
+	height: 210px;
+	overflow: auto;
+}
 </style>
