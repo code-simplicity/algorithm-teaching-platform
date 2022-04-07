@@ -90,7 +90,7 @@ export default {
 	mounted() {
 		//获取浏览器高度
 		const mainHeight = document.documentElement.clientHeight;
-		this.$refs.main.$el.style.height = mainHeight - 120 - 16 + "px";
+		this.$refs.main.$el.style.height = mainHeight - 80 - 16 + "px";
 		//获取页面宽度
 		const mainWidth = this.$refs.main.$el.clientWidth;
 		if (mainWidth >= 1920) {

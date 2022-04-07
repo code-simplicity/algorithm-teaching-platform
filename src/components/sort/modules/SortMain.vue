@@ -8,6 +8,7 @@
 				v-for="tag in demoTag"
 				:type="tag.type"
 				:effect="tag.effect"
+				size="medium"
 				>{{ tag.text }}</el-tag
 			>
 		</el-row>
@@ -178,7 +179,7 @@ export default {
 					return "dark";
 				}
 			}
-			return "plain";
+			return "dark";
 		},
 	},
 };

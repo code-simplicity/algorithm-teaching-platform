@@ -11,6 +11,11 @@ import 'nprogress/nprogress.css'
 import 'element-ui/lib/theme-chalk/display.css';
 import "./assets/css/global.css"
 
+import VueCodemirror from 'vue-codemirror'
+// import base style
+import 'codemirror/lib/codemirror.css'
+Vue.use(VueCodemirror)
+
 // 使用animate.css动画库
 import animated from "animate.css"
 Vue.use(animated)

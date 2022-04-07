@@ -5,7 +5,7 @@
 				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
 			</el-collapse-item>
 		</el-collapse>
-		<el-header>
+		<el-header class="select-header">
 			<SortHeader
 				:current="current"
 				:items="items"
@@ -68,10 +68,10 @@ export default {
 			resetj: false,
 			htmlMD: "",
 			demoTag: [
-				{ text: "未排序元素", type: "info", effect: "plain" },
-				{ text: "比较元素", type: "danger", effect: "plain" },
-				{ text: "当前最小元素", type: "warning", effect: "plain" },
-				{ text: "已排序元素", type: "success", effect: "plain" },
+				{ text: "未排序元素", type: "info", effect: "dark" },
+				{ text: "比较元素", type: "danger", effect: "dark" },
+				{ text: "当前最小元素", type: "warning", effect: "dark" },
+				{ text: "已排序元素", type: "success", effect: "dark" },
 			],
 			menuKey: 1,
 			//当前值
@@ -342,5 +342,8 @@ export default {
 	/deep/.el-collapse-item__content {
 		padding: 0 16px;
 	}
+}
+.select-header {
+	height: 50px !important;
 }
 </style>

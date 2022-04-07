@@ -5,6 +5,7 @@
 				placeholder="输入一个数字或以逗号相隔的数组"
 				v-model="input"
 				@blur="create"
+				size="medium"
 				clearable
 			>
 			</el-input>

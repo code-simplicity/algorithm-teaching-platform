@@ -340,6 +340,8 @@ private void sink(Comparable[] a,int k,int N){
 </template>
 
 <script>
+// import theme style
+import "codemirror/theme/base16-dark.css";
 export default {
 	name: "SortFooter",
 	props: {
