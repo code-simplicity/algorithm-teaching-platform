@@ -1,0 +1,14 @@
+[
+    {
+        "title": "顺序查找",
+        "index": "/SequentialSearch"
+    },
+    {
+        "title": "二分查找",
+        "index": "/BinarySearch"
+    },
+    {
+        "title": "二叉查找树",
+        "index": "/BST"
+    }
+]

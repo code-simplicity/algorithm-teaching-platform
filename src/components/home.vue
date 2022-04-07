@@ -1,52 +1,39 @@
 <template>
 	<el-container id="app" ref="app">
-		<el-header>
-			<el-menu :default-active="activeMenu()" mode="horizontal" router>
+		<el-header class="home-header-box">
+			<el-menu
+				background-color="#545c64"
+				text-color="#fff"
+				active-text-color="#ffd04b"
+				:default-active="activeMenu()"
+				mode="horizontal"
+				router
+			>
 				<el-menu-item @click="tools"
 					><i class="el-icon-s-tools"></i
 				></el-menu-item>
 				<el-submenu index="/sort">
 					<template slot="title">排序</template>
-					<el-menu-item index="/selection">
-						<span slot="title">选择排序</span>
-					</el-menu-item>
-					<el-menu-item index="/insertion">
-						<span slot="title">插入排序</span>
-					</el-menu-item>
-					<el-menu-item index="/shell">
-						<span slot="title">希尔排序</span>
-					</el-menu-item>
-					<el-menu-item index="/merge">
-						<span slot="title">归并排序</span>
-					</el-menu-item>
-					<el-menu-item index="/mergeBU">
-						<span slot="title">归并排序2</span>
-					</el-menu-item>
-					<el-menu-item index="/quick">
-						<span slot="title">快速排序</span>
-					</el-menu-item>
-					<el-menu-item index="/quick3way">
-						<span slot="title">三分快速排序</span>
-					</el-menu-item>
-					<el-menu-item index="/heap">
-						<span slot="title">堆排序</span>
-					</el-menu-item>
+					<el-menu-item
+						v-for="(item, index) in sortNavItem"
+						:key="index"
+						:index="item.index"
+						><span slot="title">{{ item.title }}</span></el-menu-item
+					>
 				</el-submenu>
 				<el-submenu index="/search">
 					<template slot="title">查找</template>
-					<el-menu-item index="/SequentialSearch">
-						<span slot="title">顺序查找</span>
-					</el-menu-item>
-					<el-menu-item index="/BinarySearch">
-						<span slot="title">二分查找</span>
-					</el-menu-item>
-					<el-menu-item index="/BST">
-						<span slot="title">二叉查找树</span>
+					<el-menu-item
+						v-for="(item, index) in searchNavItem"
+						:index="item.index"
+						:key="index"
+					>
+						<span slot="title">{{ item.title }}</span>
 					</el-menu-item>
 				</el-submenu>
 			</el-menu>
 		</el-header>
-		<el-main ref="main">
+		<el-main class="home-main-box" ref="main">
 			<transition name="slide-fade" mode="out-in">
 				<router-view :key="key" />
 			</transition>
@@ -60,7 +47,6 @@
 			<div class="drawer-container">
 				<div>
 					<h3 class="drawer-title">全局设置</h3>
-
 					<div class="drawer-item">
 						<span>交换动画</span>
 						<el-switch v-model="hasAnimation" class="drawer-switch" />
@@ -77,6 +63,10 @@ export default {
 		return {
 			drawer: false,
 			size: "300",
+			// 排序菜单
+			sortNavItem: [],
+			// 查找菜单
+			searchNavItem: [],
 		};
 	},
 	methods: {
@@ -88,22 +78,25 @@ export default {
 		},
 	},
 	mounted() {
-		//获取浏览器高度
-		const mainHeight = document.documentElement.clientHeight;
-		this.$refs.main.$el.style.height = mainHeight - 80 - 16 + "px";
-		//获取页面宽度
-		const mainWidth = this.$refs.main.$el.clientWidth;
-		if (mainWidth >= 1920) {
-			this.$store.dispatch("changeState", { key: "size", val: "xl" });
-		} else if (mainWidth < 1920 && mainWidth >= 1200) {
-			this.$store.dispatch("changeState", { key: "size", val: "lg" });
-		} else if (mainWidth < 1200 && mainWidth >= 992) {
-			this.$store.dispatch("changeState", { key: "size", val: "md" });
-		} else if (mainWidth < 992 && mainWidth >= 768) {
-			this.$store.dispatch("changeState", { key: "size", val: "sm" });
-		} else if (mainWidth < 768) {
-			this.$store.dispatch("changeState", { key: "size", val: "xs" });
-		}
+		// 获取菜单
+		this.sortNavItem = require("@/json/sortNavItem.json");
+		this.searchNavItem = require("@/json/searchNavItem.json");
+		// //获取浏览器高度
+		// const mainHeight = document.documentElement.clientHeight;
+		// this.$refs.main.$el.style.height = mainHeight - 90 + "px";
+		// //获取页面宽度
+		// const mainWidth = this.$refs.main.$el.clientWidth;
+		// if (mainWidth >= 1920) {
+		// 	this.$store.dispatch("changeState", { key: "size", val: "xl" });
+		// } else if (mainWidth < 1920 && mainWidth >= 1200) {
+		// 	this.$store.dispatch("changeState", { key: "size", val: "lg" });
+		// } else if (mainWidth < 1200 && mainWidth >= 992) {
+		// 	this.$store.dispatch("changeState", { key: "size", val: "md" });
+		// } else if (mainWidth < 992 && mainWidth >= 768) {
+		// 	this.$store.dispatch("changeState", { key: "size", val: "sm" });
+		// } else if (mainWidth < 768) {
+		// 	this.$store.dispatch("changeState", { key: "size", val: "xs" });
+		// }
 		//计算每行会有几个元素
 		this.$store.dispatch("changeState", {
 			key: "lineNum",
@@ -126,7 +119,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 /* 可以设置不同的进入和离开动画 */
 /* 设置持续时间和动画函数 */
 .slide-fade-enter-active {
@@ -179,5 +172,15 @@ export default {
 
 .drawer-switch {
 	float: right;
+}
+.home-header-box {
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 9999;
+}
+.home-main-box {
+	margin-top: 60px;
 }
 </style>

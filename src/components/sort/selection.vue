@@ -1,11 +1,11 @@
 <template>
-	<el-container>
+	<div class="select-box">
 		<el-collapse class="select-info">
 			<el-collapse-item class="select-title" title="选择排序-内容介绍">
 				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
 			</el-collapse-item>
 		</el-collapse>
-		<el-header class="select-header">
+		<div class="el-mian-box">
 			<SortHeader
 				:current="current"
 				:items="items"
@@ -22,8 +22,6 @@
 				@finished="finished"
 				@sort="sort"
 			></SortHeader>
-		</el-header>
-		<el-main>
 			<SortMain
 				ref="main"
 				:key="menuKey"
@@ -33,17 +31,18 @@
 				:demo-tag="demoTag"
 				:sort-state="sortState"
 			/>
-		</el-main>
-		<el-footer>
+		</div>
+		<div class="el-footer-box">
 			<SortFooter
 				:text-arr="textArr"
+				:codeDataLsit="codeDataLsit"
 				method="select"
 				:current="current"
 				:line="line"
 				@clear="clear"
 			/>
-		</el-footer>
-	</el-container>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -103,6 +102,17 @@ export default {
 			intervalIDanimation: "",
 			//定时器速度
 			intervalTime: 99,
+			// 代码
+			codeDataLsit: [
+				`// 选择排序
+		for (int i = 0; i < N; i++) {
+            int min = i;
+            for (int j = i + 1; j < N; j++) {
+                if (less(a[j], a[min])) min = j;
+                exch(a, i, min);
+            }
+        }`,
+			],
 		};
 	},
 	methods: {
@@ -333,17 +343,21 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.select-info {
-	margin-bottom: 20px;
-	/deep/.el-collapse-item__header {
-		padding: 0 10px;
-		font-size: 14px;
+.select-box {
+	.select-info {
+		/deep/.el-collapse-item__header {
+			padding: 0 10px;
+			font-size: 14px;
+		}
+		/deep/.el-collapse-item__content {
+			padding: 0 16px;
+		}
 	}
-	/deep/.el-collapse-item__content {
-		padding: 0 16px;
+	.el-mian-box {
+		margin-top: 16px;
 	}
-}
-.select-header {
-	height: 50px !important;
+	.el-footer-box {
+		margin-top: 16px;
+	}
 }
 </style>

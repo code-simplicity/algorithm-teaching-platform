@@ -2,6 +2,7 @@
 	<el-row :gutter="12">
 		<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
 			<el-input
+				class="el-input-style"
 				placeholder="输入一个数字或以逗号相隔的数组"
 				v-model="input"
 				@blur="create"
@@ -39,7 +40,6 @@
 				>下一步</el-button
 			>
 			<el-button
-				class="hidden-xs-only"
 				:size="getSize()"
 				v-if="!hasAnimation"
 				type="info"
@@ -49,7 +49,6 @@
 				>跳过</el-button
 			>
 			<el-button
-				class="hidden-xs-only"
 				:size="getSize()"
 				v-if="!hasAnimation"
 				type="danger"
@@ -59,14 +58,7 @@
 				>重置</el-button
 			>
 		</el-col>
-		<el-col
-			:sm="4"
-			:md="2"
-			:lg="2"
-			:xl="2"
-			v-if="!hasAnimation"
-			class="hidden-xs-only"
-		>
+		<el-col :sm="4" :md="2" :lg="2" :xl="2" v-if="!hasAnimation">
 			<el-slider
 				v-model="time"
 				:min="1"
@@ -139,4 +131,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+/deep/.el-button.el-button {
+	margin: 0px 10px 10px 0;
+}
+.el-input-style {
+	margin: 0 0 10px 0;
+}
+</style>

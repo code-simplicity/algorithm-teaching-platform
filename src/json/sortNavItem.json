@@ -1,0 +1,34 @@
+[
+    {
+        "title": "选择排序",
+        "index": "/selection"
+    },
+    {
+        "title": "插入排序",
+        "index": "/insertion"
+    },
+    {
+        "title": "希尔排序",
+        "index": "/shell"
+    },
+    {
+        "title": "归并排序",
+        "index": "/merge"
+    },
+    {
+        "title": "归并排序2",
+        "index": "/mergeBU"
+    },
+    {
+        "title": "快速排序",
+        "index": "/quick"
+    },
+    {
+        "title": "三分快速排序",
+        "index": "/quick3way"
+    },
+    {
+        "title": "堆排序",
+        "index": "/heap"
+    }
+]

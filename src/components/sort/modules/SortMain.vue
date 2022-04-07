@@ -1,10 +1,10 @@
 <template>
 	<div>
-		<el-divider content-position="left">示例元素</el-divider>
+		<el-divider content-position="left">元素样式</el-divider>
 		<el-row :gutter="20">
 			<el-tag
 				:size="getSize()"
-				style="margin: 10px"
+				class="el-style-tag"
 				v-for="tag in demoTag"
 				:type="tag.type"
 				:effect="tag.effect"
@@ -13,7 +13,7 @@
 			>
 		</el-row>
 		<el-divider content-position="left">待排序数组</el-divider>
-		<div style="background-color: gray" ref="main">
+		<div class="tag-background" ref="main">
 			<el-tag
 				class="tagClass"
 				:ref="'tag' + index"
@@ -185,9 +185,16 @@ export default {
 };
 </script>
 
-<style scoped>
-.tagClass {
+<style lang="less" scoped>
+.tag-background {
+	background: #fff;
+	.tagClass {
+		margin: 10px;
+		width: 45px;
+		text-align: center;
+	}
+}
+.el-style-tag {
 	margin: 10px;
-	width: 45px;
 }
 </style>

@@ -1,48 +1,68 @@
 <template>
 	<el-row :gutter="20">
 		<el-col :xs="24" :sm="24" :md="getSpan()" :lg="getSpan()" :xl="getSpan()">
-			<el-card class="box-card" shadow="hover">
+			<el-card class="box-card" shadow="always">
 				<div slot="header" style="text-align: center">
-					<span>console</span>
+					<span>控制台</span>
 					<el-button
-						style="float: right; padding: 3px 0"
-						type="text"
+						style="float: right"
+						type="danger"
+						icon="el-icon-delete"
 						@click="clear"
-						>clear</el-button
-					>
+						size="small"
+						circle
+					></el-button>
 				</div>
 				<div class="consoleDiv" style="text-align: left">
 					<el-row v-if="method === 'select'">
 						<el-col :span="8"
-							><el-tag>i:{{ current.outside }}</el-tag></el-col
+							><el-tag effect="dark" type="success"
+								>i{{ current.outside }}</el-tag
+							></el-col
 						>
 						<el-col :span="8"
-							><el-tag>min:{{ current.min }}</el-tag></el-col
+							><el-tag effect="dark" type="info"
+								>min{{ current.min }}</el-tag
+							></el-col
 						>
 						<el-col :span="8"
-							><el-tag>j:{{ current.inner }}</el-tag></el-col
+							><el-tag effect="dark" type="danger"
+								>j{{ current.inner }}</el-tag
+							></el-col
 						>
 					</el-row>
 					<el-row v-else-if="method === 'insert'">
 						<el-col :span="12"
-							><el-tag>i:{{ current.outside }}</el-tag></el-col
+							><el-tag effect="dark" type="success"
+								>i{{ current.outside }}</el-tag
+							></el-col
 						>
 						<el-col :span="12"
-							><el-tag>j:{{ current.inner }}</el-tag></el-col
+							><el-tag effect="dark" type="info"
+								>j{{ current.inner }}</el-tag
+							></el-col
 						>
 					</el-row>
 					<el-row v-else-if="method === 'shell'">
 						<el-col :span="6"
-							><el-tag>N:{{ current.N }}</el-tag></el-col
+							><el-tag effect="dark" type="success"
+								>N{{ current.N }}</el-tag
+							></el-col
 						>
 						<el-col :span="6"
-							><el-tag>h:{{ current.h }}</el-tag></el-col
+							><el-tag effect="dark" type="info"
+								>h{{ current.h }}</el-tag
+							></el-col
 						>
 						<el-col :span="6"
-							><el-tag>i:{{ current.outside }}</el-tag></el-col
+							><el-tag effect="dark" type="danger"
+								>i{{ current.outside }}</el-tag
+							></el-col
 						>
 						<el-col :span="6"
-							><el-tag>j:{{ current.inner }}</el-tag></el-col
+							><el-tag effect="dark" type="success"
+								>j{{ current.inner }}</el-tag
+							></el-col
 						>
 					</el-row>
 					<div v-for="(text, index) in textArr" :key="index">
@@ -52,12 +72,18 @@
 			</el-card>
 		</el-col>
 		<el-col :xs="24" :sm="24" :md="getSpan()" :lg="getSpan()" :xl="getSpan()">
-			<el-card class="box-card" shadow="hover">
+			<el-card class="box-card" shadow="always">
 				<div slot="header" style="text-align: center">
-					<span>code</span>
+					<span>代码区域</span>
 				</div>
-				<div class="consoleDiv">
-					<code v-if="method === 'select'">
+				<div class="code-style">
+					<codemirror
+						ref="codeRef1"
+						v-if="method === 'select'"
+						v-model="codeData"
+						:options="option"
+					></codemirror>
+					<!-- <code v-if="method === 'select'">
 						<pre>
 <el-link :type="getType(1)" :class="getClass(1)" :underline="false">for(<el-link :type="getType2(1.1)" :underline="false">int i = 0;</el-link><el-link :type="getType2(1.2)" :underline="false">i < arr.size();</el-link> <el-link :type="getType2(1.3)" :underline="false">i++</el-link>){</el-link>
   <el-link :type="getType(2)" :class="getClass(2)" :underline="false">int min = i;</el-link>
@@ -68,7 +94,7 @@
   <el-link :type="getType(6)" :class="getClass(6)" :underline="false">exch(arr,i,min);</el-link>
 <el-link :underline="false">}</el-link>
                 </pre>
-					</code>
+					</code> -->
 					<code v-else-if="method === 'insert'">
 						<pre>
 <el-link :type="getType(1)" :class="getClass(1)" :underline="false">for(<el-link :type="getType2(1.1)" :underline="false">int i = 1;</el-link> <el-link :type="getType2(1.2)" :underline="false">i < arr.size();</el-link> <el-link :type="getType2(1.3)" :underline="false">i++</el-link>){</el-link>
@@ -190,6 +216,7 @@ private static void sort(Comparable[] a,int lo,int hi){
                 </pre
 						>
 					</code>
+
 					<code v-else-if="method === 'heap'">
 						<pre>
 public static void sort(Comparable[] a){
@@ -340,8 +367,10 @@ private void sink(Comparable[] a,int k,int N){
 </template>
 
 <script>
-// import theme style
-import "codemirror/theme/base16-dark.css";
+import { codemirror } from "vue-codemirror";
+import "codemirror/theme/dracula.css";
+require("codemirror/mode/clike/clike.js");
+require("codemirror/addon/selection/active-line.js");
 export default {
 	name: "SortFooter",
 	props: {
@@ -350,6 +379,26 @@ export default {
 		method: String,
 		line: Number,
 		current: Object,
+		codeDataLsit: Array,
+	},
+	components: {
+		codemirror,
+	},
+	data() {
+		return {
+			codeData: "",
+			option: {
+				mode: "text/x-java",
+				styleActiveLine: true,
+				lineNumbers: true,
+				lineWrapping: true,
+				readOnly: true,
+				theme: "dracula",
+			},
+		};
+	},
+	created() {
+		this.codeData = this.codeDataLsit[0];
 	},
 	methods: {
 		clear() {
@@ -395,7 +444,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .consoleDiv {
 	height: 210px;
 	overflow: auto;
@@ -403,5 +452,10 @@ export default {
 .lineSelected {
 	font-size: 16px;
 	padding: 5px;
+}
+.box-card {
+	margin: 0 0 16px 0;
+	max-height: 400px;
+	height: 300px;
 }
 </style>
