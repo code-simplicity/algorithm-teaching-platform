@@ -1,8 +1,8 @@
 <template>
 	<el-container>
-		<el-collapse style="padding-bottom: 20px">
-			<el-collapse-item title="选择排序">
-				<VueMarkdown :source="htmlMD"></VueMarkdown>
+		<el-collapse class="select-info">
+			<el-collapse-item class="select-title" title="选择排序-内容介绍">
+				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
 			</el-collapse-item>
 		</el-collapse>
 		<el-header>
@@ -52,7 +52,7 @@ import { PlainDraggable } from "../../util/plain-draggable-limit.min";
 import SortHeader from "./modules/SortHeader";
 import SortMain from "./modules/SortMain";
 import SortFooter from "./modules/SortFooter";
-import VueMarkdown from "vue-markdown";
+import { MarkdownPro } from "vue-meditor";
 import axios from "axios";
 export default {
 	name: "selection",
@@ -60,7 +60,7 @@ export default {
 		SortHeader,
 		SortMain,
 		SortFooter,
-		VueMarkdown,
+		MarkdownPro,
 	},
 	data() {
 		return {
@@ -332,4 +332,15 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+.select-info {
+	margin-bottom: 20px;
+	/deep/.el-collapse-item__header {
+		padding: 0 10px;
+		font-size: 14px;
+	}
+	/deep/.el-collapse-item__content {
+		padding: 0 16px;
+	}
+}
+</style>

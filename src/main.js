@@ -9,6 +9,12 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 //基于断点的隐藏类
 import 'element-ui/lib/theme-chalk/display.css';
+import "./assets/css/global.css"
+
+// 使用animate.css动画库
+import animated from "animate.css"
+Vue.use(animated)
+
 Vue.use(ElementUI);
 Vue.config.productionTip = false
 

@@ -4,6 +4,14 @@ Vue.use(VueRouter);
 import home from "../components/home";
 
 const routes = [{
+        path: '/login',
+        name: "login",
+        meta: {
+            title: '登录'
+        },
+        component: () => import('../views/login/index.vue'),
+    },
+    {
         path: '/',
         redirect: '/selection', //设置默认指向的路径
         component: home,

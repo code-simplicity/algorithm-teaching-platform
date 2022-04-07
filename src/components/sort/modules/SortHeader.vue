@@ -1,5 +1,5 @@
 <template>
-	<el-row :gutter="10">
+	<el-row :gutter="12">
 		<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
 			<el-input
 				placeholder="输入一个数字或以逗号相隔的数组"
@@ -16,21 +16,24 @@
 				@click="sort"
 				icon="el-icon-video-play"
 				:loading="intervalID !== -1"
+				size="medium"
 				>开始</el-button
 			>
 			<el-button
 				:size="getSize()"
 				v-if="!hasAnimation"
-				type="primary"
+				type="warning"
 				@click="stop"
+				size="medium"
 				icon="el-icon-video-pause"
 				>暂停</el-button
 			>
 			<el-button
 				:size="getSize()"
 				v-if="!hasAnimation"
-				type="primary"
+				type="success"
 				@click="step"
+				size="medium"
 				icon="el-icon-video-pause"
 				>下一步</el-button
 			>
@@ -38,8 +41,9 @@
 				class="hidden-xs-only"
 				:size="getSize()"
 				v-if="!hasAnimation"
-				type="primary"
+				type="info"
 				@click="finished"
+				size="medium"
 				icon="el-icon-finished"
 				>跳过</el-button
 			>
@@ -47,8 +51,9 @@
 				class="hidden-xs-only"
 				:size="getSize()"
 				v-if="!hasAnimation"
-				type="primary"
+				type="danger"
 				@click="refresh"
+				size="medium"
 				icon="el-icon-refresh-right"
 				>重置</el-button
 			>

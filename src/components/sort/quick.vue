@@ -188,7 +188,7 @@ export default {
 				//已排序
 				this.$message({
 					message: "排序已经完成",
-					type: "warning",
+					type: "success",
 				});
 				this.stop();
 			}
