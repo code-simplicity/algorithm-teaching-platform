@@ -1,6 +1,11 @@
 <template>
-	<el-container>
-		<el-header>
+	<div class="select-box">
+		<el-collapse class="select-info">
+			<el-collapse-item title="三分快速排序">
+				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
+			</el-collapse-item>
+		</el-collapse>
+		<div class="el-main-box">
 			<SortHeader
 				:current="current"
 				:items="items"
@@ -17,8 +22,6 @@
 				@finished="finished"
 				@sort="sort"
 			></SortHeader>
-		</el-header>
-		<el-main>
 			<SortMain
 				ref="main"
 				:key="menuKey"
@@ -29,16 +32,17 @@
 				:sort-state="sortState"
 				:now="now"
 			/>
-		</el-main>
-		<el-footer>
+		</div>
+		<div class="el-footer-box">
 			<SortFooter
 				:text-arr="textArr"
 				method="quick3way"
 				:stack="stack"
 				@clear="clear"
+				:codeDataLsit="codeDataLsit"
 			/>
-		</el-footer>
-	</el-container>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -47,15 +51,19 @@ import { PlainDraggable } from "../../util/plain-draggable-limit.min";
 import SortHeader from "./modules/SortHeader";
 import SortMain from "./modules/SortMain";
 import SortFooter from "./modules/SortFooter";
+import { MarkdownPro } from "vue-meditor";
 export default {
 	name: "quick3way",
 	components: {
 		SortHeader,
 		SortMain,
 		SortFooter,
+		MarkdownPro,
 	},
 	data() {
 		return {
+			// 文本展示
+			htmlMD: "",
 			demoTag: [
 				{ text: "未排序元素", type: "info", effect: "plain" },
 				{ text: "当前切分的元素范围", type: "warning", effect: "plain" },
@@ -94,6 +102,25 @@ export default {
 			intervalID: -1,
 			//定时器速度
 			intervalTime: 50,
+			codeDataLsit: [
+				`// 三分快速排序
+public static void sort(Comparable[] a) {
+    sort(a, 0, a.length - 1);
+}
+private static void sort(Comparable[] a, int lo, int hi) {
+    if (lo >= hi) return;
+    int lt = lo, i = lo + 1, gt = hi;
+    Comparable v = a[lo];
+    while (i <= gt) {
+        int cmp = a[i].compareTo(v);
+        if (cmp < 0) exch(a, i++, lt++);
+        else if (cmp > 0) exch(a, i, gt--);
+        else i++;
+    }
+    sort(a, lo, lt - 1);
+    sort(a, gt + 1, hi);
+}`,
+			],
 		};
 	},
 	methods: {
@@ -340,4 +367,22 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+.select-box {
+	.select-info {
+		/deep/.el-collapse-item__header {
+			padding: 0 10px;
+			font-size: 14px;
+		}
+		/deep/.el-collapse-item__content {
+			padding: 0 16px;
+		}
+	}
+	.el-main-box {
+		margin-top: 16px;
+	}
+	.el-footer-box {
+		margin-top: 16px;
+	}
+}
+</style>
