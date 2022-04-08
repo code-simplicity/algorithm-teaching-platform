@@ -1,6 +1,11 @@
 <template>
-	<el-container>
-		<el-header>
+	<div class="select-box">
+		<el-collapse class="select-info">
+			<el-collapse-item title="堆排序">
+				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
+			</el-collapse-item>
+		</el-collapse>
+		<div class="el-main-box">
 			<SortHeader
 				:current="current"
 				:items="items"
@@ -17,8 +22,6 @@
 				@finished="finished"
 				@sort="sort"
 			></SortHeader>
-		</el-header>
-		<el-main>
 			<el-divider content-position="left">示例元素</el-divider>
 			<el-row :gutter="20">
 				<el-tag
@@ -26,7 +29,7 @@
 					style="margin: 10px"
 					v-for="tag in demoTag"
 					:type="tag.type"
-					:effect="tag.effect"
+					effect="dark"
 					>{{ tag.text }}</el-tag
 				>
 			</el-row>
@@ -40,11 +43,17 @@
 					:index="0"
 				></node>
 			</div>
-		</el-main>
-		<el-footer>
-			<SortFooter :text-arr="textArr" method="heap" @clear="clear" />
-		</el-footer>
-	</el-container>
+		</div>
+		<div class="el-footer-box">
+			<SortFooter
+				:text-arr="textArr"
+				method="heap"
+				@clear="clear"
+				:stack="stack"
+				:codeDataLsit="codeDataLsit"
+			/>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -52,15 +61,19 @@ import node from "./node";
 import { exch, less, createArr } from "../../../util/util";
 import SortHeader from "../modules/SortHeader";
 import SortFooter from "../modules/SortFooter";
+import { MarkdownPro } from "vue-meditor";
 export default {
 	name: "selection",
 	components: {
 		node,
 		SortHeader,
 		SortFooter,
+		MarkdownPro,
 	},
 	data() {
 		return {
+			// 内容介绍
+			htmlMD: "",
 			demoTag: [
 				{ text: "未排序元素", type: "info", effect: "plain" },
 				{ text: "较大子元素", type: "danger", effect: "plain" },
@@ -101,6 +114,26 @@ export default {
 			intervalID: -1,
 			//定时器速度
 			intervalTime: 50,
+			codeDataLsit: [
+				`// 堆排序
+public static void sort(Comparable[] a) {
+    int N = a.length;
+    for (int k = N / 2; k >= 1; k--) sink(a, k, N);
+    while (N > 1) {
+        exch(a, 1, N--);
+        sink(a, 1, N);
+    }
+}
+private void sink(Comparable[] a, int k, int N) {
+    while (2 * k <= N) {
+        int j = 2 * k;
+        if (j < N && less(j, j + 1)) j++;
+        if (!less(k, j)) break;
+        exch(k, j);
+        k = j;
+    }
+}`,
+			],
 		};
 	},
 	methods: {
@@ -295,4 +328,22 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+.select-box {
+	.select-info {
+		/deep/.el-collapse-item__header {
+			padding: 0 10px;
+			font-size: 14px;
+		}
+		/deep/.el-collapse-item__content {
+			padding: 0 16px;
+		}
+	}
+	.el-main-box {
+		margin-top: 16px;
+	}
+	.el-footer-box {
+		// margin-top: 16px;
+	}
+}
+</style>

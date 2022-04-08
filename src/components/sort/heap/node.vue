@@ -4,6 +4,7 @@
 			:size="getSize()"
 			style="margin-bottom: 20px"
 			:type="getType(index)"
+			effect="dark"
 			ref="parent"
 			@mouseover.native="show"
 			@mouseout.native="hide"
