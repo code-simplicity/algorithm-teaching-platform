@@ -1,6 +1,11 @@
 <template>
-	<el-container>
-		<el-main>
+	<div class="select-box">
+		<el-collapse class="select-info">
+			<el-collapse-item title="二分查找">
+				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
+			</el-collapse-item>
+		</el-collapse>
+		<div class="el-main-box">
 			<el-divider content-position="left">二叉树</el-divider>
 			<Item node="root" v-if="root" :key="mainKey" />
 			<el-divider content-position="left">操作</el-divider>
@@ -19,7 +24,7 @@
 						>
 					</el-input>
 				</el-col>
-				<el-col :span="24">
+				<el-col :span="12" style="margin: 10px 0 0 0">
 					<el-input v-model="get_key" placeholder="请输入键">
 						<el-button
 							slot="append"
@@ -30,7 +35,7 @@
 						>
 					</el-input>
 				</el-col>
-				<el-col :span="24">
+				<el-col :span="12" style="margin: 10px 0 0 0">
 					<el-input v-model="select_key" placeholder="请输入排名">
 						<el-button
 							slot="append"
@@ -41,7 +46,7 @@
 						>
 					</el-input>
 				</el-col>
-				<el-col :span="24">
+				<el-col :span="12" style="margin: 10px 0 0 0">
 					<el-input v-model="rank_key" placeholder="请输入键">
 						<el-button
 							slot="append"
@@ -52,7 +57,7 @@
 						>
 					</el-input>
 				</el-col>
-				<el-col :span="24">
+				<el-col :span="12" style="margin: 10px 0 0 0">
 					<el-input v-model="delete_key" placeholder="请输入键">
 						<el-button
 							slot="append"
@@ -63,7 +68,7 @@
 						>
 					</el-input>
 				</el-col>
-				<el-col :span="24">
+				<el-col :span="12" style="margin: 10px 0 0 0">
 					<el-input v-model="floor_key" placeholder="请输入键">
 						<el-button
 							slot="append"
@@ -74,7 +79,7 @@
 						>
 					</el-input>
 				</el-col>
-				<el-col :span="24">
+				<el-col :span="12" style="margin: 10px 0 0 0">
 					<el-input v-model="ceil_key" placeholder="请输入键">
 						<el-button
 							slot="append"
@@ -85,6 +90,8 @@
 						>
 					</el-input>
 				</el-col>
+			</el-row>
+			<el-row type="flex" justify="space-between" style="margin: 10px 0">
 				<el-col :span="8">
 					<el-button :loading="intervalID !== -1" @click="min" type="primary"
 						>最小值</el-button
@@ -101,26 +108,29 @@
 					>
 				</el-col>
 			</el-row>
-		</el-main>
-		<el-footer>
+		</div>
+		<div class="el-footer-box">
 			<SerachFooter
 				method="BST"
 				:text-arr="textArr"
 				@clear="clear"
+				:codeDataLsit="codeDataLsit"
 			></SerachFooter>
-		</el-footer>
-	</el-container>
+		</div>
+	</div>
 </template>
 
 <script>
 import SerachFooter from "../modules/SerachFooter";
 import { compareTo } from "../../../util/util";
 import Item from "./modules/Item";
+import { MarkdownPro } from "vue-meditor";
 export default {
 	name: "BST",
 	components: {
 		SerachFooter,
 		Item,
+		MarkdownPro,
 	},
 	data() {
 		return {
@@ -139,6 +149,27 @@ export default {
 			intervalID: -1,
 			N: 0,
 			current: {},
+			// htmlMD
+			htmlMD: "",
+			// 代码
+			codeDataLsit: [
+				`// 二分查找
+public static int recursionBinarySearch(int[] arr, int key, int low, int high) {
+    if (key < arr[low] || key > arr[high] || low > high) {
+        return -1;
+    }
+    int middle = (low + high) / 2;          //初始中间位置
+    if (arr[middle] > key) {
+        //比关键字大则关键字在左区域
+        return recursionBinarySearch(arr, key, low, middle - 1);
+    } else if (arr[middle] < key) {
+        //比关键字小则关键字在右区域
+        return recursionBinarySearch(arr, key, middle + 1, high);
+    } else {
+        return middle;
+    }
+}`,
+			],
 		};
 	},
 	methods: {
@@ -534,8 +565,26 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .tagClass {
 	margin: 10px;
+}
+
+.select-box {
+	.select-info {
+		/deep/.el-collapse-item__header {
+			padding: 0 10px;
+			font-size: 14px;
+		}
+		/deep/.el-collapse-item__content {
+			padding: 0 16px;
+		}
+	}
+	.el-main-box {
+		margin-top: 16px;
+	}
+	.el-footer-box {
+		// margin-top: 16px;
+	}
 }
 </style>

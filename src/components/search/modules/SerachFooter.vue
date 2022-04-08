@@ -3,13 +3,15 @@
 		<el-col :xs="24" :sm="24" :md="getSpan()" :lg="getSpan()" :xl="getSpan()">
 			<el-card class="box-card" shadow="hover">
 				<div slot="header" style="text-align: center">
-					<span>console</span>
+					<span>控制台</span>
 					<el-button
-						style="float: right; padding: 3px 0"
-						type="text"
+						style="float: right"
+						type="danger"
+						icon="el-icon-delete"
 						@click="clear"
-						>clear</el-button
-					>
+						size="small"
+						circle
+					></el-button>
 				</div>
 				<div class="consoleDiv" style="text-align: left">
 					<div v-for="(text, index) in textArr" :key="index">
@@ -21,10 +23,18 @@
 		<el-col :xs="24" :sm="24" :md="getSpan()" :lg="getSpan()" :xl="getSpan()">
 			<el-card class="box-card" shadow="hover">
 				<div slot="header" style="text-align: center">
-					<span>code</span>
+					<span>代码区域</span>
 				</div>
 				<div class="consoleDiv">
-					<code v-if="method === 'SequentialSearch'">
+					<div class="code-style">
+						<codemirror
+							ref="codeRef1"
+							v-model="codeData"
+							:options="option"
+							class="code-mirror-style"
+						></codemirror>
+					</div>
+					<!-- <code v-if="method === 'SequentialSearch'">
 						<pre>
 private Node first;
 private class Node {
@@ -227,7 +237,7 @@ private void sink(Comparable[] a,int k,int N){
 
                 </pre
 						>
-					</code>
+					</code> -->
 				</div>
 			</el-card>
 		</el-col>
@@ -355,12 +365,36 @@ private void sink(Comparable[] a,int k,int N){
 </template>
 
 <script>
+import { codemirror } from "vue-codemirror";
+import "codemirror/theme/dracula.css";
+require("codemirror/mode/clike/clike.js");
+require("codemirror/addon/selection/active-line.js");
 export default {
 	name: "SortFooter",
 	props: {
 		textArr: Array,
 		stack: Array,
 		method: String,
+		codeDataLsit: Array,
+	},
+	components: {
+		codemirror,
+	},
+	data() {
+		return {
+			codeData: "",
+			option: {
+				mode: "text/x-java",
+				styleActiveLine: true,
+				lineNumbers: true,
+				lineWrapping: true,
+				readOnly: true,
+				theme: "dracula",
+			},
+		};
+	},
+	mounted() {
+		this.codeData = this.codeDataLsit[0];
 	},
 	methods: {
 		clear() {

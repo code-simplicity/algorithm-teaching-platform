@@ -1,7 +1,12 @@
 <template>
-	<el-container>
-		<el-main>
-			<el-divider content-position="left">有序数组</el-divider>
+	<div class="select-box">
+		<el-collapse class="select-info">
+			<el-collapse-item title="二分查找">
+				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
+			</el-collapse-item>
+		</el-collapse>
+		<div class="el-main-box">
+			<el-divider content-position="left">二分查找</el-divider>
 			<el-row
 				:key="mainKey"
 				:gutter="20"
@@ -37,7 +42,7 @@
 						>
 					</el-input>
 				</el-col>
-				<el-col :span="24">
+				<el-col :span="12" style="margin: 10px 0 0 0">
 					<el-input v-model="get_key" placeholder="请输入键">
 						<el-button
 							slot="append"
@@ -48,7 +53,7 @@
 						>
 					</el-input>
 				</el-col>
-				<el-col :span="24">
+				<el-col :span="12" style="margin: 10px 0 0 0">
 					<el-input v-model="select_key" placeholder="请输入排名">
 						<el-button
 							slot="append"
@@ -59,7 +64,7 @@
 						>
 					</el-input>
 				</el-col>
-				<el-col :span="24">
+				<el-col :span="12" style="margin: 10px 0 0 0">
 					<el-input v-model="rank_key" placeholder="请输入键">
 						<el-button
 							slot="append"
@@ -70,7 +75,7 @@
 						>
 					</el-input>
 				</el-col>
-				<el-col :span="24">
+				<el-col :span="12" style="margin: 10px 0 0 0">
 					<el-input v-model="delete_key" placeholder="请输入键">
 						<el-button
 							slot="append"
@@ -81,7 +86,7 @@
 						>
 					</el-input>
 				</el-col>
-				<el-col :span="24">
+				<el-col :span="12" style="margin: 10px 0 0 0">
 					<el-input v-model="floor_key" placeholder="请输入键">
 						<el-button
 							slot="append"
@@ -92,7 +97,7 @@
 						>
 					</el-input>
 				</el-col>
-				<el-col :span="24">
+				<el-col :span="12" style="margin: 10px 0 0 0">
 					<el-input v-model="ceil_key" placeholder="请输入键">
 						<el-button
 							slot="append"
@@ -103,40 +108,45 @@
 						>
 					</el-input>
 				</el-col>
-				<el-col :span="8">
+			</el-row>
+			<el-row type="flex" justify="space-between" style="margin: 10px 0">
+				<el-col :span="12">
 					<el-button :loading="intervalID !== -1" @click="min" type="primary"
 						>最小值</el-button
 					>
 				</el-col>
-				<el-col :span="8">
-					<el-button :loading="intervalID !== -1" @click="max" type="primary"
+				<el-col :span="12">
+					<el-button :loading="intervalID !== -1" @click="max" type="success"
 						>最大值</el-button
 					>
 				</el-col>
-				<el-col :span="8">
-					<el-button :loading="intervalID !== -1" @click="size" type="primary"
+				<el-col :span="12">
+					<el-button :loading="intervalID !== -1" @click="size" type="warning"
 						>长度</el-button
 					>
 				</el-col>
 			</el-row>
-		</el-main>
-		<el-footer>
+		</div>
+		<div class="el-footer-box">
 			<SerachFooter
 				method="BinarySearch"
 				:text-arr="textArr"
 				@clear="clear"
+				:codeDataLsit="codeDataLsit"
 			></SerachFooter>
-		</el-footer>
-	</el-container>
+		</div>
+	</div>
 </template>
 
 <script>
 import SerachFooter from "../modules/SerachFooter";
 import { compareTo } from "../../../util/util";
+import { MarkdownPro } from "vue-meditor";
 export default {
 	name: "BinarySearch",
 	components: {
 		SerachFooter,
+		MarkdownPro,
 	},
 	data() {
 		return {
@@ -155,6 +165,49 @@ export default {
 			intervalID: -1,
 			N: 0,
 			current: {},
+			// htmlMD
+			htmlMD: "",
+			// 代码
+			codeDataLsit: [
+				`// 二分查找
+private Key[] keys;
+private Value[] vals;
+private int N;
+public int size() {
+    return N;
+}
+public Value get(Key key) {
+    if (N == 0) return null;
+    int i = rank(key);
+    if (i < N && keys[i].compareTo(key) == 0) return vals[i];
+    else return null;
+}
+public void put(Key key, Value val) {
+    int i = rank(key);
+    if (i < N && keys[i].compareTo(key) == 0) {
+        vals[i] = val;
+        return
+    }
+    for (int j = N; j > i; j--) {
+        keys[j] = keys[j - 1];
+        vals[j] = keys[j - 1];
+    }
+    keys[i] = key;
+    vals[i] = val;
+    N++;
+}
+public int rank(Key key) {
+    int lo = 0, hi = N - 1;
+    while (lo <= hi) {
+        int mid = lo + (hi - lo) / 2;
+        int cmp = key.compareTo(keys[mic]);
+        if (cmp < 0) hi = mid - 1;
+        else if (cmp > 0) lo = mid + 1;
+        else return mid;
+    }
+    return lo;
+}`,
+			],
 		};
 	},
 	methods: {
@@ -612,8 +665,26 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .tagClass {
 	margin: 10px;
+}
+
+.select-box {
+	.select-info {
+		/deep/.el-collapse-item__header {
+			padding: 0 10px;
+			font-size: 14px;
+		}
+		/deep/.el-collapse-item__content {
+			padding: 0 16px;
+		}
+	}
+	.el-main-box {
+		margin-top: 16px;
+	}
+	.el-footer-box {
+		// margin-top: 16px;
+	}
 }
 </style>

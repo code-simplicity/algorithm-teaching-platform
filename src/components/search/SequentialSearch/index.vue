@@ -1,6 +1,11 @@
 <template>
-	<el-container>
-		<el-main>
+	<div class="select-box">
+		<el-collapse class="select-info">
+			<el-collapse-item title="顺序查找">
+				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
+			</el-collapse-item>
+		</el-collapse>
+		<div class="el-main-box">
 			<el-divider content-position="left">无序链表</el-divider>
 			<el-row>
 				<Item :key="itemKey" :now="item" :node="first"></Item>
@@ -21,7 +26,7 @@
 						>
 					</el-input>
 				</el-col>
-				<el-col :span="24">
+				<el-col :span="24" style="margin: 10px 0 0 0">
 					<el-input v-model="get_key" placeholder="请输入键">
 						<el-button
 							slot="append"
@@ -33,29 +38,34 @@
 					</el-input>
 				</el-col>
 			</el-row>
-		</el-main>
-		<el-footer>
+		</div>
+		<div class="el-footer-box">
 			<SerachFooter
 				method="SequentialSearch"
 				:text-arr="textArr"
 				@clear="clear"
+				:codeDataLsit="codeDataLsit"
 			></SerachFooter>
-		</el-footer>
-	</el-container>
+		</div>
+	</div>
 </template>
 
 <script>
 import Item from "./Item";
 import SerachFooter from "../modules/SerachFooter";
 import { Node } from "./node";
+import { MarkdownPro } from "vue-meditor";
 export default {
 	name: "SequentialSearch",
 	components: {
 		Item,
 		SerachFooter,
+		MarkdownPro,
 	},
 	data() {
 		return {
+			// markdow内容
+			htmlMD: "",
 			first: null,
 			put_key: "",
 			put_val: "",
@@ -64,6 +74,33 @@ export default {
 			intervalID: -1,
 			itemKey: 1,
 			item: null,
+			codeDataLsit: [
+				`// 顺序查找
+private Node first;
+private class Node {
+    Key key;
+    Value val;
+    Node next;
+    public Node(Key key, Value val, Node next) {
+        this.key = key;
+        this.val = val;
+        this.next = next;
+    }
+}
+public Value get(Key key) {
+    for (Node x = first; x != null; x = x.next)
+        if (key.equals(x.key)) return x.val;
+    return null;
+}
+public void put(Key key, Value val) {
+    for (Node x = first; x != null; x = x.next)
+        if (key.equals(x.key)) {
+            x.val = val;
+            return
+        }
+    first = new Node(key, val, first);
+}`,
+			],
 		};
 	},
 	methods: {
@@ -141,4 +178,22 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+.select-box {
+	.select-info {
+		/deep/.el-collapse-item__header {
+			padding: 0 10px;
+			font-size: 14px;
+		}
+		/deep/.el-collapse-item__content {
+			padding: 0 16px;
+		}
+	}
+	.el-main-box {
+		margin-top: 16px;
+	}
+	.el-footer-box {
+		margin-top: 16px;
+	}
+}
+</style>
