@@ -1,11 +1,11 @@
 <template>
-	<el-container>
-		<el-collapse style="padding-bottom: 20px">
+	<div class="select-box">
+		<el-collapse class="select-info">
 			<el-collapse-item title="插入排序">
-				<VueMarkdown :source="htmlMD"></VueMarkdown>
+				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
 			</el-collapse-item>
 		</el-collapse>
-		<el-header>
+		<div class="el-main-box">
 			<SortHeader
 				:current="current"
 				:items="items"
@@ -22,8 +22,6 @@
 				@finished="finished"
 				@sort="sort"
 			></SortHeader>
-		</el-header>
-		<el-main>
 			<SortMain
 				ref="main"
 				:key="menuKey"
@@ -33,17 +31,18 @@
 				:demo-tag="demoTag"
 				:sort-state="sortState"
 			/>
-		</el-main>
-		<el-footer>
+		</div>
+		<div class="el-footer-box">
 			<SortFooter
 				:text-arr="textArr"
 				method="insert"
+				:codeDataLsit="codeDataLsit"
 				:current="current"
 				:line="line"
 				@clear="clear"
 			/>
-		</el-footer>
-	</el-container>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -52,7 +51,7 @@ import { PlainDraggable } from "../../util/plain-draggable-limit.min";
 import SortHeader from "./modules/SortHeader";
 import SortMain from "./modules/SortMain";
 import SortFooter from "./modules/SortFooter";
-import VueMarkdown from "vue-markdown";
+import { MarkdownPro } from "vue-meditor";
 import axios from "axios";
 export default {
 	name: "selection",
@@ -60,7 +59,7 @@ export default {
 		SortHeader,
 		SortMain,
 		SortFooter,
-		VueMarkdown,
+		MarkdownPro,
 	},
 	data() {
 		return {
@@ -68,9 +67,9 @@ export default {
 			resetj: false,
 			htmlMD: "",
 			demoTag: [
-				{ text: "未排序元素", type: "info", effect: "plain" },
-				{ text: "比较元素", type: "danger", effect: "plain" },
-				{ text: "外循环元素", type: "warning", effect: "plain" },
+				{ text: "未排序元素", type: "info" },
+				{ text: "比较元素", type: "danger" },
+				{ text: "外循环元素", type: "warning" },
 			],
 			menuKey: 1,
 			//当前值
@@ -101,6 +100,16 @@ export default {
 			isStop: false,
 			//定时器速度
 			intervalTime: 99,
+			// 代码
+			codeDataLsit: [
+				`// 插入排序
+        for (int i = 1; i < N; i++){
+            for (int j = i; j > 0 && less(a[j], a[j-1]); j--) {
+                exch(a, j, j-1);
+            }
+        }
+			`,
+			],
 		};
 	},
 	methods: {
@@ -368,4 +377,22 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+.select-box {
+	.select-info {
+		/deep/.el-collapse-item__header {
+			padding: 0 10px;
+			font-size: 14px;
+		}
+		/deep/.el-collapse-item__content {
+			padding: 0 16px;
+		}
+	}
+	.el-main-box {
+		margin-top: 16px;
+	}
+	.el-footer-box {
+		margin-top: 16px;
+	}
+}
+</style>

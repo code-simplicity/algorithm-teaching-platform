@@ -85,7 +85,7 @@ export default {
 		// const mainHeight = document.documentElement.clientHeight;
 		// this.$refs.main.$el.style.height = mainHeight - 90 + "px";
 		// //获取页面宽度
-		// const mainWidth = this.$refs.main.$el.clientWidth;
+		const mainWidth = this.$refs.main.$el.clientWidth;
 		// if (mainWidth >= 1920) {
 		// 	this.$store.dispatch("changeState", { key: "size", val: "xl" });
 		// } else if (mainWidth < 1920 && mainWidth >= 1200) {

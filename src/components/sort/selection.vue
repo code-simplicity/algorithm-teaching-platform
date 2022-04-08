@@ -5,7 +5,7 @@
 				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
 			</el-collapse-item>
 		</el-collapse>
-		<div class="el-mian-box">
+		<div class="el-main-box">
 			<SortHeader
 				:current="current"
 				:items="items"
@@ -67,10 +67,10 @@ export default {
 			resetj: false,
 			htmlMD: "",
 			demoTag: [
-				{ text: "未排序元素", type: "info", effect: "dark" },
-				{ text: "比较元素", type: "danger", effect: "dark" },
-				{ text: "当前最小元素", type: "warning", effect: "dark" },
-				{ text: "已排序元素", type: "success", effect: "dark" },
+				{ text: "未排序元素", type: "info" },
+				{ text: "比较元素", type: "danger" },
+				{ text: "当前最小元素", type: "warning" },
+				{ text: "已排序元素", type: "success" },
 			],
 			menuKey: 1,
 			//当前值
@@ -353,7 +353,7 @@ export default {
 			padding: 0 16px;
 		}
 	}
-	.el-mian-box {
+	.el-main-box {
 		margin-top: 16px;
 	}
 	.el-footer-box {

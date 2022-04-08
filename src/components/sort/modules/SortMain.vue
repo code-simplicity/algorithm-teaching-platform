@@ -7,7 +7,7 @@
 				class="el-style-tag"
 				v-for="tag in demoTag"
 				:type="tag.type"
-				:effect="tag.effect"
+				effect="dark"
 				size="medium"
 				>{{ tag.text }}</el-tag
 			>

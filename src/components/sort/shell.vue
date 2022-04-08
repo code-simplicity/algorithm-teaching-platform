@@ -1,11 +1,11 @@
 <template>
-	<el-container>
-		<el-collapse style="padding-bottom: 20px">
+	<div class="select-box">
+		<el-collapse class="select-info">
 			<el-collapse-item title="希尔排序">
-				<VueMarkdown :source="htmlMD"></VueMarkdown>
+				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
 			</el-collapse-item>
 		</el-collapse>
-		<el-header>
+		<div class="el-main-box">
 			<SortHeader
 				:current="current"
 				:items="items"
@@ -22,8 +22,6 @@
 				@finished="finished"
 				@sort="sort"
 			></SortHeader>
-		</el-header>
-		<el-main>
 			<SortMain
 				ref="main"
 				:key="menuKey"
@@ -33,17 +31,18 @@
 				:demo-tag="demoTag"
 				:sort-state="sortState"
 			/>
-		</el-main>
-		<el-footer>
+		</div>
+		<div class="el-footer-box">
 			<SortFooter
 				:text-arr="textArr"
 				method="shell"
+				:codeDataLsit="codeDataLsit"
 				:current="current"
 				:line="line"
 				@clear="clear"
 			/>
-		</el-footer>
-	</el-container>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -52,15 +51,15 @@ import { PlainDraggable } from "../../util/plain-draggable-limit.min";
 import SortHeader from "./modules/SortHeader";
 import SortMain from "./modules/SortMain";
 import SortFooter from "./modules/SortFooter";
-import VueMarkdown from "vue-markdown";
 import axios from "axios";
+import { MarkdownPro } from "vue-meditor";
 export default {
 	name: "selection",
 	components: {
 		SortHeader,
 		SortMain,
 		SortFooter,
-		VueMarkdown,
+		MarkdownPro,
 	},
 	data() {
 		return {
@@ -102,6 +101,20 @@ export default {
 			intervalID: -1,
 			//定时器速度
 			intervalTime: 99,
+			// 代码
+			codeDataLsit: [
+				`// 希尔排序
+        int N = a.length;
+        int h = 1;
+        while (h < N/3) h = 3*h + 1;
+        while (h >= 1){
+            for (int i = h; i < N; i++){
+                for (int j = i; j >= h && less(a[j],a[j-h]); j -= h)
+                    exch(a, j, j-h);
+            }
+            h = h/3;
+        }`,
+			],
 		};
 	},
 	methods: {
@@ -438,4 +451,22 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+.select-box {
+	.select-info {
+		/deep/.el-collapse-item__header {
+			padding: 0 10px;
+			font-size: 14px;
+		}
+		/deep/.el-collapse-item__content {
+			padding: 0 16px;
+		}
+	}
+	.el-main-box {
+		margin-top: 16px;
+	}
+	.el-footer-box {
+		margin-top: 16px;
+	}
+}
+</style>

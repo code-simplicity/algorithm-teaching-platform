@@ -79,7 +79,6 @@
 				<div class="code-style">
 					<codemirror
 						ref="codeRef1"
-						v-if="method === 'select'"
 						v-model="codeData"
 						:options="option"
 					></codemirror>
@@ -95,7 +94,7 @@
 <el-link :underline="false">}</el-link>
                 </pre>
 					</code> -->
-					<code v-else-if="method === 'insert'">
+					<!-- <code v-else-if="method === 'insert'">
 						<pre>
 <el-link :type="getType(1)" :class="getClass(1)" :underline="false">for(<el-link :type="getType2(1.1)" :underline="false">int i = 1;</el-link> <el-link :type="getType2(1.2)" :underline="false">i < arr.size();</el-link> <el-link :type="getType2(1.3)" :underline="false">i++</el-link>){</el-link>
   <el-link :type="getType(2)" :class="getClass(2)" :underline="false">for(<el-link :type="getType2(2.1)" :underline="false">int j = i;</el-link> <el-link :type="getType2(2.2)" :underline="false">j > 0</el-link> && <el-link :type="getType2(2.3)" :underline="false">less(arr[j],arr[j-1];</el-link> <el-link :type="getType2(2.4)" :underline="false">j--</el-link>)</el-link>
@@ -239,7 +238,7 @@ private void sink(Comparable[] a,int k,int N){
 
                 </pre
 						>
-					</code>
+					</code> -->
 				</div>
 			</el-card>
 		</el-col>
@@ -454,8 +453,9 @@ export default {
 	padding: 5px;
 }
 .box-card {
-	margin: 0 0 16px 0;
-	max-height: 400px;
-	height: 300px;
+	margin: 0 0 10px 0;
+	.code-style {
+		padding: 0 0 16px 0;
+	}
 }
 </style>
