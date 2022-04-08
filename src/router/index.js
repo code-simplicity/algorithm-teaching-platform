@@ -1,5 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 Vue.use(VueRouter);
 import home from "../components/home";
 
@@ -96,5 +98,17 @@ const routes = [{
 let router = new VueRouter({
     routes
 });
+
+router.beforeEach((to, from, next) => {
+    NProgress.start();
+    /* 路由发生变化修改页面title */
+    if (to.meta.title) {
+        document.title = to.meta.title + "-动画算法"
+    }
+    next()
+})
+router.afterEach(() => {
+    NProgress.done()
+})
 
 export default router

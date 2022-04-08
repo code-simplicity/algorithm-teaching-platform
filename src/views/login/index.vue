@@ -2,7 +2,7 @@
  * @Author: bugdr
  * @Date: 2022-04-07 08:54:49
  * @LastEditors: bugdr
- * @LastEditTime: 2022-04-07 08:54:52
+ * @LastEditTime: 2022-04-08 20:14:08
  * @FilePath: \algorithm-teaching-platform\src\views\login\index.vue
  * @Description: 
 -->
@@ -95,7 +95,7 @@ export default {
 							type: "success",
 						});
 						this.$router.replace({
-							path: "/home",
+							path: "/selection",
 						});
 					} else {
 						this.$message({
@@ -113,7 +113,7 @@ export default {
 
 <style lang="less" scoped>
 .login-container {
-	height: 100%;
+	height: 100vh;
 	display: flex;
 	align-items: center;
 	justify-content: center;

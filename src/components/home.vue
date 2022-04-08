@@ -2,9 +2,9 @@
 	<el-container id="app" ref="app">
 		<el-header class="home-header-box">
 			<el-menu
-				background-color="#545c64"
-				text-color="#fff"
-				active-text-color="#ffd04b"
+				background-color="#fff"
+				text-color="#000"
+				active-text-color="#000ddd"
 				:default-active="activeMenu()"
 				mode="horizontal"
 				router
@@ -133,24 +133,7 @@ export default {
 	transform: translateX(10px);
 	opacity: 0;
 }
-@font-face {
-	font-family: "iconfont"; /* project id 2047640 */
-	src: url("//at.alicdn.com/t/font_2047640_aq84d5tg0s4.eot");
-	src: url("//at.alicdn.com/t/font_2047640_aq84d5tg0s4.eot?#iefix")
-			format("embedded-opentype"),
-		url("//at.alicdn.com/t/font_2047640_aq84d5tg0s4.woff2") format("woff2"),
-		url("//at.alicdn.com/t/font_2047640_aq84d5tg0s4.woff") format("woff"),
-		url("//at.alicdn.com/t/font_2047640_aq84d5tg0s4.ttf") format("truetype"),
-		url("//at.alicdn.com/t/font_2047640_aq84d5tg0s4.svg#iconfont") format("svg");
-}
-.iconfont {
-	font-family: "iconfont" !important;
-	font-size: 25px;
-	font-style: normal;
-	-webkit-font-smoothing: antialiased;
-	-webkit-text-stroke-width: 0.2px;
-	-moz-osx-font-smoothing: grayscale;
-}
+
 .drawer-container {
 	padding: 24px;
 	font-size: 14px;
