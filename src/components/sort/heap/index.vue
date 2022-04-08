@@ -49,7 +49,6 @@
 				:text-arr="textArr"
 				method="heap"
 				@clear="clear"
-				:stack="stack"
 				:codeDataLsit="codeDataLsit"
 			/>
 		</div>

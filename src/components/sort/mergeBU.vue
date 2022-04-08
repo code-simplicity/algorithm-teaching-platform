@@ -57,6 +57,7 @@
 								class="tagClass"
 								v-for="(item, index) in aux"
 								v-if="index >= current.j && index <= current.hi"
+								:key="index"
 								>{{ item }}</el-tag
 							>
 						</div>
@@ -69,7 +70,6 @@
 				:text-arr="textArr"
 				method="mergeBU"
 				@clear="clear"
-				:stack="stack"
 				:codeDataLsit="codeDataLsit"
 			/>
 		</div>
