@@ -188,6 +188,7 @@ export default {
 <style lang="less" scoped>
 .tag-background {
 	background: #fff;
+	margin-bottom: 16px;
 	.tagClass {
 		margin: 10px;
 		width: 45px;

@@ -1,6 +1,11 @@
 <template>
-	<el-container>
-		<el-header>
+	<div class="select-box">
+		<el-collapse class="select-info">
+			<el-collapse-item title="归并排序">
+				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
+			</el-collapse-item>
+		</el-collapse>
+		<div class="el-main-box">
 			<SortHeader
 				:current="current"
 				:items="items"
@@ -17,8 +22,7 @@
 				@finished="finished"
 				@sort="sort"
 			></SortHeader>
-		</el-header>
-		<el-main>
+
 			<SortMain
 				:key="menuKey"
 				:current="current"
@@ -59,11 +63,17 @@
 					</el-card>
 				</el-col>
 			</el-row>
-		</el-main>
-		<el-footer>
-			<SortFooter :text-arr="textArr" method="mergeBU" @clear="clear" />
-		</el-footer>
-	</el-container>
+		</div>
+		<div class="el-footer-box">
+			<SortFooter
+				:text-arr="textArr"
+				method="mergeBU"
+				@clear="clear"
+				:stack="stack"
+				:codeDataLsit="codeDataLsit"
+			/>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -71,15 +81,19 @@ import { less, createArr } from "../../util/util";
 import SortHeader from "./modules/SortHeader";
 import SortMain from "./modules/SortMain";
 import SortFooter from "./modules/SortFooter";
+import { MarkdownPro } from "vue-meditor";
 export default {
 	name: "mergeBU",
 	components: {
 		SortHeader,
 		SortMain,
 		SortFooter,
+		MarkdownPro,
 	},
 	data() {
 		return {
+			// 内容介绍
+			htmlMD: "",
 			demoTag: [
 				{ text: "未排序元素", type: "info", effect: "plain" },
 				{ text: "当前归并的元素范围", type: "warning", effect: "plain" },
@@ -122,6 +136,34 @@ export default {
 			intervalID: -1,
 			//定时器速度
 			intervalTime: 50,
+			// 代码
+			codeDataLsit: [
+				`// 归并排序
+private static Comparable[] aux;
+public static void sort(Comparable[] a) {
+    int N = a.length;
+    aux = new Comparable[N];
+    for (int sz = 1; sz < N; sz *= 2) {
+        for (int lo = 0; lo < N - sz; lo += 2 * sz) {
+            merge(a, lo, lo + sz - 1, Math.min(lo + 2 * sz - 1, N - 1));
+        }
+    }
+}
+private static void merge(Comparable[] a, int lo, int mid, int hi) {
+    int i = lo;
+    int j = mid + 1;
+    for (int k = lo; k <= hi; k++) {
+        aux[k] = a[k];
+    }
+    for (int k = lo; k <= hi; k++) {
+        if (i > mid) a[k] = aux[j++];
+        else if (j > hi) a[k] = aux[i++];
+        else if (less(aux[i], aux[j])) {
+            a[k] = aux[i++];
+        } else a[k] = aux[j++];
+    }
+}`,
+			],
 		};
 	},
 	methods: {
@@ -288,8 +330,25 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .tagClass {
 	margin: 10px;
+}
+.select-box {
+	.select-info {
+		/deep/.el-collapse-item__header {
+			padding: 0 10px;
+			font-size: 14px;
+		}
+		/deep/.el-collapse-item__content {
+			padding: 0 16px;
+		}
+	}
+	.el-main-box {
+		margin-top: 16px;
+	}
+	.el-footer-box {
+		margin-top: 16px;
+	}
 }
 </style>

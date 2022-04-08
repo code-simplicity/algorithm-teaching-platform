@@ -81,6 +81,7 @@
 						ref="codeRef1"
 						v-model="codeData"
 						:options="option"
+						class="code-mirror-style"
 					></codemirror>
 					<!-- <code v-if="method === 'select'">
 						<pre>
@@ -456,6 +457,11 @@ export default {
 	margin: 0 0 10px 0;
 	.code-style {
 		padding: 0 0 16px 0;
+
+		.code-mirror-style {
+			max-height: 250px;
+			overflow: auto;
+		}
 	}
 }
 </style>

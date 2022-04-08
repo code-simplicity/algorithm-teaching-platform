@@ -1,6 +1,11 @@
 <template>
-	<el-container>
-		<el-header>
+	<div class="select-box">
+		<el-collapse class="select-info">
+			<el-collapse-item title="归并排序">
+				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
+			</el-collapse-item>
+		</el-collapse>
+		<div class="el-main-box">
 			<SortHeader
 				:current="current"
 				:items="items"
@@ -17,17 +22,6 @@
 				@finished="finished"
 				@sort="sort"
 			></SortHeader>
-		</el-header>
-		<el-main>
-			<SortMain
-				:key="menuKey"
-				:current="current"
-				:items="items"
-				method="merge"
-				:demo-tag="demoTag"
-				:sort-state="sortState"
-				:now="now"
-			/>
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-card class="box-card" shadow="hover">
@@ -54,22 +48,37 @@
 								class="tagClass"
 								v-for="(item, index) in aux"
 								v-if="index >= current.j && index <= now.hi"
+								:key="index"
 								>{{ item }}</el-tag
 							>
 						</div>
 					</el-card>
 				</el-col>
 			</el-row>
-		</el-main>
-		<el-footer>
+			<el-row class="sort-style">
+				<el-col :span="24">
+					<SortMain
+						:key="menuKey"
+						:current="current"
+						:items="items"
+						method="merge"
+						:demo-tag="demoTag"
+						:sort-state="sortState"
+						:now="now"
+					/>
+				</el-col>
+			</el-row>
+		</div>
+		<div class="el-footer-box">
 			<SortFooter
 				:text-arr="textArr"
 				method="merge"
 				:stack="stack"
+				:codeDataLsit="codeDataLsit"
 				@clear="clear"
 			/>
-		</el-footer>
-	</el-container>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -77,15 +86,19 @@ import { less, createArr } from "../../util/util";
 import SortHeader from "./modules/SortHeader";
 import SortMain from "./modules/SortMain";
 import SortFooter from "./modules/SortFooter";
+import { MarkdownPro } from "vue-meditor";
 export default {
 	name: "merge",
 	components: {
 		SortHeader,
 		SortMain,
 		SortFooter,
+		MarkdownPro,
 	},
 	data() {
 		return {
+			// 介绍
+			htmlMD: "",
 			demoTag: [
 				{ text: "未排序元素", type: "info", effect: "plain" },
 				{ text: "当前归并的元素范围", type: "warning", effect: "plain" },
@@ -125,17 +138,39 @@ export default {
 			intervalTime: 50,
 			// 代码
 			codeDataLsit: [
-				`// 希尔排序
-        int N = a.length;
-        int h = 1;
-        while (h < N/3) h = 3*h + 1;
-        while (h >= 1){
-            for (int i = h; i < N; i++){
-                for (int j = i; j >= h && less(a[j],a[j-h]); j -= h)
-                    exch(a, j, j-h);
-            }
-            h = h/3;
-        }`,
+				`// 归并排序
+private static Comparable[] aux;
+public static void sort(Comparable[] a) {
+    aux = new Comparable[a.length];
+    sort(a, 0, a.length - 1);
+}
+
+private static void sort(Comparable[] a, int lo, int hi) {
+    if (lo >= hi) return;
+    int mid = lo + (hi - lo) / 2;
+    sort(a, lo, mid);
+    sort(a, mid + 1, hi);
+    merge(a, lo, mid, hi);
+}
+
+private static void merge(Comparable[] a, int lo, int mid, int hi) {
+    int i = lo;
+    int j = mid + 1;
+    for (int k = lo; k <= hi; k++) {
+        aux[k] = a[k];
+    }
+    for (int k = lo; k <= hi; k++) {
+        if (i > mid) {
+            a[k] = aux[j++];
+        } else if (j > hi) {
+            a[k] = aux[i++];
+        } else if (less(aux[i], aux[j])) {
+            a[k] = aux[i++];
+        } else {
+            a[k] = aux[j++];
+        }
+    }
+}`,
 			],
 		};
 	},
@@ -306,5 +341,22 @@ export default {
 <style lang="less" scoped>
 .tagClass {
 	margin: 10px;
+}
+.select-box {
+	.select-info {
+		/deep/.el-collapse-item__header {
+			padding: 0 10px;
+			font-size: 14px;
+		}
+		/deep/.el-collapse-item__content {
+			padding: 0 16px;
+		}
+	}
+	.el-main-box {
+		margin-top: 16px;
+	}
+	.el-footer-box {
+		// margin-top: 16px;
+	}
 }
 </style>
