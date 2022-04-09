@@ -47,6 +47,12 @@ const routes = [{
                     title: '归并排序'
                 }
             }, {
+                path: 'bubble',
+                component: () => import('../components/sort/bubble'),
+                meta: {
+                    title: '冒泡排序'
+                }
+            }, {
                 path: 'mergeBU',
                 component: () => import('../components/sort/mergeBU'),
                 meta: {

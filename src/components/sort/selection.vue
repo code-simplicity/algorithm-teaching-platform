@@ -1,10 +1,11 @@
 <template>
 	<div class="select-box">
-		<el-collapse class="select-info">
-			<el-collapse-item class="select-title" title="选择排序-内容介绍">
-				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
-			</el-collapse-item>
-		</el-collapse>
+		<div class="select-info">
+			<Markdown
+				:markdownTitle="markdownTitle"
+				:markdownUrl="markdownUrl"
+			></Markdown>
+		</div>
 		<div class="el-main-box">
 			<SortHeader
 				:current="current"
@@ -51,18 +52,20 @@ import { PlainDraggable } from "../../util/plain-draggable-limit.min";
 import SortHeader from "./modules/SortHeader";
 import SortMain from "./modules/SortMain";
 import SortFooter from "./modules/SortFooter";
-import { MarkdownPro } from "vue-meditor";
-import axios from "axios";
+import Markdown from "../markdown.vue";
 export default {
 	name: "selection",
 	components: {
 		SortHeader,
 		SortMain,
 		SortFooter,
-		MarkdownPro,
+		Markdown,
 	},
 	data() {
 		return {
+			// markdownTitle
+			markdownTitle: "选择排序-内容介绍",
+			markdownUrl: "./md/SelectionSort.md",
 			line: 0,
 			resetj: false,
 			htmlMD: "",
@@ -105,13 +108,29 @@ export default {
 			// 代码
 			codeDataLsit: [
 				`// 选择排序
-		for (int i = 0; i < N; i++) {
-            int min = i;
-            for (int j = i + 1; j < N; j++) {
-                if (less(a[j], a[min])) min = j;
-                exch(a, i, min);
-            }
-        }`,
+public static void selectSort(int[] a, int n) {
+    int i;        // 有序区的末尾位置
+    int j;        // 无序区的起始位置
+    int min;    // 无序区中最小元素位置
+
+    for (i = 0; i < n; i++) {
+        min = i;
+
+        // 找出"a[i+1] ... a[n]"之间的最小元素，并赋值给min。
+        for (j = i + 1; j < n; j++) {
+            if (a[j] < a[min])
+                min = j;
+        }
+
+        // 若min!=i，则交换 a[i] 和 a[min]。
+        // 交换之后，保证了a[0] ... a[i] 之间的元素是有序的
+        if (min != i) {
+            int tmp = a[i];
+            a[i] = a[min];
+            a[min] = tmp;
+        }
+    }
+}`,
 			],
 		};
 	},
@@ -332,12 +351,6 @@ export default {
 		lineNum() {
 			return this.$store.state.lineNum;
 		},
-	},
-	created() {
-		const url = `./md/SelectionSort.md`;
-		axios.get(url).then((response) => {
-			this.htmlMD = response.data;
-		});
 	},
 };
 </script>

@@ -76,13 +76,15 @@
 				<div slot="header" style="text-align: center">
 					<span>代码区域</span>
 				</div>
-				<div class="code-style">
-					<codemirror
-						ref="codeRef1"
-						v-model="codeData"
-						:options="option"
-						class="code-mirror-style"
-					></codemirror>
+				<div class="consoleDiv">
+					<div class="code-mirror-style">
+						<codemirror
+							ref="codeRef1"
+							v-model="codeData"
+							:options="option"
+						></codemirror>
+					</div>
+
 					<!-- <code v-if="method === 'select'">
 						<pre>
 <el-link :type="getType(1)" :class="getClass(1)" :underline="false">for(<el-link :type="getType2(1.1)" :underline="false">int i = 0;</el-link><el-link :type="getType2(1.2)" :underline="false">i < arr.size();</el-link> <el-link :type="getType2(1.3)" :underline="false">i++</el-link>){</el-link>
@@ -323,23 +325,18 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.consoleDiv {
-	height: 210px;
-	overflow: auto;
-}
 .lineSelected {
 	font-size: 16px;
 	padding: 5px;
 }
 .box-card {
 	margin: 0 0 10px 0;
-	.code-style {
-		padding: 0 0 16px 0;
-
-		.code-mirror-style {
-			max-height: 250px;
-			overflow: auto;
-		}
+	.consoleDiv {
+		height: 240px;
+		overflow: auto;
+		// .code-mirror-style {
+		// 	overflow: auto;
+		// }
 	}
 }
 </style>

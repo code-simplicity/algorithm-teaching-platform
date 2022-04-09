@@ -1,10 +1,11 @@
 <template>
 	<div class="select-box">
-		<el-collapse class="select-info">
-			<el-collapse-item title="插入排序">
-				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
-			</el-collapse-item>
-		</el-collapse>
+		<div class="select-info">
+			<Markdown
+				:markdownTitle="markdownTitle"
+				:markdownUrl="markdownUrl"
+			></Markdown>
+		</div>
 		<div class="el-main-box">
 			<SortHeader
 				:current="current"
@@ -51,21 +52,23 @@ import { PlainDraggable } from "../../util/plain-draggable-limit.min";
 import SortHeader from "./modules/SortHeader";
 import SortMain from "./modules/SortMain";
 import SortFooter from "./modules/SortFooter";
-import { MarkdownPro } from "vue-meditor";
-import axios from "axios";
+import Markdown from "../markdown.vue";
+
 export default {
 	name: "selection",
 	components: {
 		SortHeader,
 		SortMain,
 		SortFooter,
-		MarkdownPro,
+		Markdown,
 	},
 	data() {
 		return {
+			// markdownTitle
+			markdownTitle: "插入排序",
+			markdownUrl: "./md/InsertionSort.md",
 			line: 0,
 			resetj: false,
-			htmlMD: "",
 			demoTag: [
 				{ text: "未排序元素", type: "info" },
 				{ text: "比较元素", type: "danger" },
@@ -103,12 +106,33 @@ export default {
 			// 代码
 			codeDataLsit: [
 				`// 插入排序
-        for (int i = 1; i < N; i++){
-            for (int j = i; j > 0 && less(a[j], a[j-1]); j--) {
-                exch(a, j, j-1);
-            }
+ /*
+ * 直接插入排序
+ * 参数说明:
+ *     a -- 待排序的数组
+ *     n -- 数组的长度
+ */
+public static void insertSort(int[] a, int n) {
+    int i, j, k;
+
+    for (i = 1; i < n; i++) {
+
+        //为a[i]在前面的a[0...i-1]有序区间中找一个合适的位置
+        for (j = i - 1; j >= 0; j--)
+            if (a[j] < a[i])
+                break;
+
+        //如找到了一个合适的位置
+        if (j != i - 1) {
+            //将比a[i]大的数据向后移
+            int temp = a[i];
+            for (k = i - 1; k > j; k--)
+                a[k + 1] = a[k];
+            //将a[i]放到正确位置上
+            a[k + 1] = temp;
         }
-			`,
+    }
+}`,
 			],
 		};
 	},
@@ -367,12 +391,6 @@ export default {
 		lineNum() {
 			return this.$store.state.lineNum;
 		},
-	},
-	created() {
-		const url = `./md/InsertionSort.md`;
-		axios.get(url).then((response) => {
-			this.htmlMD = response.data;
-		});
 	},
 };
 </script>

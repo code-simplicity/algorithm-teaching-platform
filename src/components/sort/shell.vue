@@ -1,10 +1,11 @@
 <template>
 	<div class="select-box">
-		<el-collapse class="select-info">
-			<el-collapse-item title="希尔排序">
-				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
-			</el-collapse-item>
-		</el-collapse>
+		<div class="select-info">
+			<Markdown
+				:markdownTitle="markdownTitle"
+				:markdownUrl="markdownUrl"
+			></Markdown>
+		</div>
 		<div class="el-main-box">
 			<SortHeader
 				:current="current"
@@ -51,21 +52,22 @@ import { PlainDraggable } from "../../util/plain-draggable-limit.min";
 import SortHeader from "./modules/SortHeader";
 import SortMain from "./modules/SortMain";
 import SortFooter from "./modules/SortFooter";
-import axios from "axios";
-import { MarkdownPro } from "vue-meditor";
+import Markdown from "../markdown.vue";
 export default {
 	name: "selection",
 	components: {
 		SortHeader,
 		SortMain,
 		SortFooter,
-		MarkdownPro,
+		Markdown,
 	},
 	data() {
 		return {
+			// markdownTitle
+			markdownTitle: "希尔排序",
+			markdownUrl: "./md/ShellSort.md",
 			line: 0,
 			resetj: false,
-			htmlMD: "",
 			demoTag: [
 				{ text: "未排序元素", type: "info", effect: "plain" },
 				{ text: "比较元素", type: "danger", effect: "plain" },
@@ -104,16 +106,31 @@ export default {
 			// 代码
 			codeDataLsit: [
 				`// 希尔排序
-        int N = a.length;
-        int h = 1;
-        while (h < N/3) h = 3*h + 1;
-        while (h >= 1){
-            for (int i = h; i < N; i++){
-                for (int j = i; j >= h && less(a[j],a[j-h]); j -= h)
-                    exch(a, j, j-h);
+public static void shellSort1(int[] a, int n) {
+
+// gap为步长，每次减为原来的一半。
+    for (int gap = n / 2; gap > 0; gap /= 2) {
+
+    	// 共gap个组，对每一组都执行直接插入排序
+        for (int i = 0; i < gap; i++) {
+
+            for (int j = i + gap; j < n; j += gap) {
+
+                // 如果a[j] < a[j-gap]，则寻找a[j]位置，并将后面数据的位置都后移。
+                if (a[j] < a[j - gap]) {
+
+                    int tmp = a[j];
+                    int k = j - gap;
+                    while (k >= 0 && a[k] > tmp) {
+                        a[k + gap] = a[k];
+                        k -= gap;
+                    }
+                    a[k + gap] = tmp;
+                }
             }
-            h = h/3;
-        }`,
+        }
+    }
+}`,
 			],
 		};
 	},
@@ -442,25 +459,12 @@ export default {
 			return this.$store.state.lineNum;
 		},
 	},
-	created() {
-		const url = `./md/ShellSort.md`;
-		axios.get(url).then((response) => {
-			this.htmlMD = response.data;
-		});
-	},
 };
 </script>
 
 <style lang="less" scoped>
 .select-box {
 	.select-info {
-		/deep/.el-collapse-item__header {
-			padding: 0 10px;
-			font-size: 14px;
-		}
-		/deep/.el-collapse-item__content {
-			padding: 0 16px;
-		}
 	}
 	.el-main-box {
 		margin-top: 16px;

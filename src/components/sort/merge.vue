@@ -1,10 +1,11 @@
 <template>
 	<div class="select-box">
-		<el-collapse class="select-info">
-			<el-collapse-item title="归并排序">
-				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
-			</el-collapse-item>
-		</el-collapse>
+		<div class="select-info">
+			<Markdown
+				:markdownTitle="markdownTitle"
+				:markdownUrl="markdownUrl"
+			></Markdown>
+		</div>
 		<div class="el-main-box">
 			<SortHeader
 				:current="current"
@@ -86,20 +87,21 @@ import { less, createArr } from "../../util/util";
 import SortHeader from "./modules/SortHeader";
 import SortMain from "./modules/SortMain";
 import SortFooter from "./modules/SortFooter";
-import { MarkdownPro } from "vue-meditor";
-import axios from "axios";
+import Markdown from "../markdown.vue";
+
 export default {
 	name: "merge",
 	components: {
 		SortHeader,
 		SortMain,
 		SortFooter,
-		MarkdownPro,
+		Markdown,
 	},
 	data() {
 		return {
-			// 介绍
-			htmlMD: "",
+			// markdownTitle
+			markdownTitle: "归并排序",
+			markdownUrl: "./md/MergeSort.md",
 			demoTag: [
 				{ text: "未排序元素", type: "info", effect: "plain" },
 				{ text: "当前归并的元素范围", type: "warning", effect: "plain" },
@@ -140,38 +142,77 @@ export default {
 			// 代码
 			codeDataLsit: [
 				`// 归并排序
-private static Comparable[] aux;
-public static void sort(Comparable[] a) {
-    aux = new Comparable[a.length];
-    sort(a, 0, a.length - 1);
-}
+				    /*
+     * 将一个数组中的两个相邻有序区间合并成一个
+     *
+     * 参数说明:
+     *     a -- 包含两个有序区间的数组
+     *     start -- 第1个有序区间的起始地址。
+     *     mid   -- 第1个有序区间的结束地址。也是第2个有序区间的起始地址。
+     *     end   -- 第2个有序区间的结束地址。
+     */
+    public static void merge(int[] a, int start, int mid, int end) {
+        int[] tmp = new int[end - start + 1];    // tmp是汇总2个有序区的临时区域
+        int i = start;            // 第1个有序区的索引
+        int j = mid + 1;        // 第2个有序区的索引
+        int k = 0;                // 临时区域的索引
 
-private static void sort(Comparable[] a, int lo, int hi) {
-    if (lo >= hi) return;
-    int mid = lo + (hi - lo) / 2;
-    sort(a, lo, mid);
-    sort(a, mid + 1, hi);
-    merge(a, lo, mid, hi);
-}
-
-private static void merge(Comparable[] a, int lo, int mid, int hi) {
-    int i = lo;
-    int j = mid + 1;
-    for (int k = lo; k <= hi; k++) {
-        aux[k] = a[k];
-    }
-    for (int k = lo; k <= hi; k++) {
-        if (i > mid) {
-            a[k] = aux[j++];
-        } else if (j > hi) {
-            a[k] = aux[i++];
-        } else if (less(aux[i], aux[j])) {
-            a[k] = aux[i++];
-        } else {
-            a[k] = aux[j++];
+        while (i <= mid && j <= end) {
+            if (a[i] <= a[j])
+                tmp[k++] = a[i++];
+            else
+                tmp[k++] = a[j++];
         }
+
+        while (i <= mid)
+            tmp[k++] = a[i++];
+
+        while (j <= end)
+            tmp[k++] = a[j++];
+
+        // 将排序后的元素，全部都整合到数组a中。
+        for (i = 0; i < k; i++)
+            a[start + i] = tmp[i];
+
+        tmp = null;
     }
-}`,
+	
+    /*
+     * 对数组a做若干次合并: 数组a的总长度为len，将它分为若干个长度为gap的子数组；
+     *             将"每2个相邻的子数组" 进行合并排序。
+     *
+     * 参数说明:
+     *     a -- 待排序的数组
+     *     len -- 数组的长度
+     *     gap -- 子数组的长度
+     */
+    public static void mergeGroups(int[] a, int len, int gap) {
+        int i;
+        int twolen = 2 * gap;    // 两个相邻的子数组的长度
+
+        // 将"每2个相邻的子数组" 进行合并排序。
+        for (i = 0; i + 2 * gap - 1 < len; i += (2 * gap))
+            merge(a, i, i + gap - 1, i + 2 * gap - 1);
+
+        // 若 i+gap-1 < len-1，则剩余一个子数组没有配对。
+        // 将该子数组合并到已排序的数组中。
+        if (i + gap - 1 < len - 1)
+            merge(a, i, i + gap - 1, len - 1);
+    }
+
+    /*
+     * 归并排序(从下往上)
+     *
+     * 参数说明:
+     *     a -- 待排序的数组
+     */
+    public static void mergeSortDown2Up(int[] a) {
+        if (a == null)
+            return;
+
+        for (int n = 1; n < a.length; n *= 2)
+            mergeGroups(a, a.length, n);
+    }`,
 			],
 		};
 	},
@@ -335,12 +376,6 @@ private static void merge(Comparable[] a, int lo, int mid, int hi) {
 		now() {
 			return this.stack[0];
 		},
-	},
-	created() {
-		const url = `./md/MergeSort.md`;
-		axios.get(url).then((response) => {
-			this.htmlMD = response.data;
-		});
 	},
 };
 </script>
