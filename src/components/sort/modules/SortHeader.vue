@@ -85,7 +85,7 @@ export default {
 	data() {
 		return {
 			input: "",
-			time: 99,
+			time: 50,
 		};
 	},
 	computed: {

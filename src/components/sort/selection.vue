@@ -334,7 +334,7 @@ export default {
 		},
 	},
 	created() {
-		const url = `./md/sort-selecttion.md`;
+		const url = `./md/SelectionSort.md`;
 		axios.get(url).then((response) => {
 			this.htmlMD = response.data;
 		});

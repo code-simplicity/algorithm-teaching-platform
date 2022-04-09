@@ -52,6 +52,7 @@ import SortHeader from "./modules/SortHeader";
 import SortMain from "./modules/SortMain";
 import SortFooter from "./modules/SortFooter";
 import { MarkdownPro } from "vue-meditor";
+import axios from "axios";
 export default {
 	name: "quick",
 	components: {
@@ -372,6 +373,12 @@ private static int pratition(Comparable[] a, int lo, int mid, int hi) {
 		now() {
 			return this.stack[0];
 		},
+	},
+	created() {
+		const url = `./md/QuickSort.md`;
+		axios.get(url).then((response) => {
+			this.htmlMD = response.data;
+		});
 	},
 };
 </script>

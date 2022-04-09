@@ -443,7 +443,7 @@ export default {
 		},
 	},
 	created() {
-		const url = `./md/sort-shell.md`;
+		const url = `./md/ShellSort.md`;
 		axios.get(url).then((response) => {
 			this.htmlMD = response.data;
 		});

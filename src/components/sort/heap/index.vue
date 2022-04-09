@@ -61,6 +61,7 @@ import { exch, less, createArr } from "../../../util/util";
 import SortHeader from "../modules/SortHeader";
 import SortFooter from "../modules/SortFooter";
 import { MarkdownPro } from "vue-meditor";
+import axios from "axios";
 export default {
 	name: "selection",
 	components: {
@@ -323,6 +324,12 @@ private void sink(Comparable[] a, int k, int N) {
 		isSort() {
 			return this.sortState === 3;
 		},
+	},
+	created() {
+		const url = `./md/HeapSort.md`;
+		axios.get(url).then((response) => {
+			this.htmlMD = response.data;
+		});
 	},
 };
 </script>

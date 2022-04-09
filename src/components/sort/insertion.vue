@@ -369,7 +369,7 @@ export default {
 		},
 	},
 	created() {
-		const url = `./md/sort-insertion.md`;
+		const url = `./md/InsertionSort.md`;
 		axios.get(url).then((response) => {
 			this.htmlMD = response.data;
 		});
