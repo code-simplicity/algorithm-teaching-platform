@@ -6,7 +6,7 @@
 					<span>视频教程</span>
 				</div>
 				<div class="consoleDiv">
-					<div id="video"></div>
+					<div style="height: 100%; width: 100%" id="video"></div>
 				</div>
 			</el-card>
 		</el-col>
@@ -43,6 +43,11 @@ export default {
 				url: this.videoUrl,
 				fitVideoSize: "auto",
 				volume: 0.6,
+				rotateFullscreen: true,
+				errorTips: `请<span>刷新</span>试试`,
+				playsinline: false,
+				"x5-video-player-type": "h5",
+				// fluid: true,
 				playbackRate: [0.5, 0.75, 1, 1.5, 2],
 				defaultPlaybackRate: 1,
 				controlPlugins: [play, fullscreen, progress, volume, pip, flex],
@@ -61,10 +66,7 @@ export default {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 100%;
-		#video {
-			flex: 0.6;
-		}
+		// width: 100%;
 	}
 }
 </style>

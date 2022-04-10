@@ -77,13 +77,11 @@
 					<span>代码区域</span>
 				</div>
 				<div class="consoleDiv">
-					<div class="code-mirror-style">
-						<codemirror
-							ref="codeRef1"
-							v-model="codeData"
-							:options="option"
-						></codemirror>
-					</div>
+					<codemirror
+						ref="codeRef1"
+						v-model="codeData"
+						:options="option"
+					></codemirror>
 				</div>
 			</el-card>
 		</el-col>
@@ -298,9 +296,6 @@ export default {
 	.consoleDiv {
 		height: 240px;
 		overflow: auto;
-		// .code-mirror-style {
-		// 	overflow: auto;
-		// }
 	}
 }
 </style>
