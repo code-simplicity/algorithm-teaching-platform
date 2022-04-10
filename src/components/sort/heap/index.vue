@@ -1,10 +1,11 @@
 <template>
 	<div class="select-box">
-		<el-collapse class="select-info">
-			<el-collapse-item title="堆排序">
-				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
-			</el-collapse-item>
-		</el-collapse>
+		<div class="select-info">
+			<Markdown
+				:markdownTitle="markdownTitle"
+				:markdownUrl="markdownUrl"
+			></Markdown>
+		</div>
 		<div class="el-main-box">
 			<SortHeader
 				:current="current"
@@ -14,6 +15,7 @@
 				:old-arr="oldArr"
 				:sort-state="sortState"
 				:text-arr="textArr"
+				:videoUrl="videoUrl"
 				@step="step"
 				@stop="stop"
 				@refresh="refresh"
@@ -61,20 +63,23 @@ import node from "./node";
 import { exch, less, createArr } from "../../../util/util";
 import SortHeader from "../modules/SortHeader";
 import SortFooter from "../modules/SortFooter";
-import { MarkdownPro } from "vue-meditor";
-import axios from "axios";
+import Markdown from "../../markdown.vue";
 export default {
 	name: "selection",
 	components: {
 		node,
 		SortHeader,
 		SortFooter,
-		MarkdownPro,
+		Markdown,
 	},
 	data() {
 		return {
-			// 内容介绍
-			htmlMD: "",
+			// 视频地址
+			videoUrl:
+				"https://bugdr-project-1305152720.cos.ap-beijing.myqcloud.com/algorithm-teaching-platform/video/heap-sort.mp4",
+			// markdownTitle
+			markdownTitle: "堆排序",
+			markdownUrl: "./md/HeapSort.md",
 			demoTag: [
 				{ text: "未排序元素", type: "info", effect: "plain" },
 				{ text: "较大子元素", type: "danger", effect: "plain" },
@@ -325,12 +330,6 @@ private void sink(Comparable[] a, int k, int N) {
 		isSort() {
 			return this.sortState === 3;
 		},
-	},
-	created() {
-		const url = `./md/HeapSort.md`;
-		axios.get(url).then((response) => {
-			this.htmlMD = response.data;
-		});
 	},
 };
 </script>

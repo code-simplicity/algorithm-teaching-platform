@@ -23,6 +23,7 @@
 				:old-arr="oldArr"
 				:sort-state="sortState"
 				:text-arr="textArr"
+				:videoUrl="videoUrl"
 				@step="step"
 				@stop="stop"
 				@refresh="refresh"
@@ -72,6 +73,9 @@ export default {
 	},
 	data() {
 		return {
+			// 视频地址
+			videoUrl:
+				"https://bugdr-project-1305152720.cos.ap-beijing.myqcloud.com/algorithm-teaching-platform/video/bubble-sort.mp4",
 			// markdownTitle
 			markdownTitle: "冒泡排序",
 			markdownUrl: "./md/BubbleSort.md",

@@ -15,6 +15,7 @@
 				:old-arr="oldArr"
 				:sort-state="sortState"
 				:text-arr="textArr"
+				:videoUrl="videoUrl"
 				@step="step"
 				@stop="stop"
 				@refresh="refresh"
@@ -99,6 +100,9 @@ export default {
 	},
 	data() {
 		return {
+			// 视频地址
+			videoUrl:
+				"https://bugdr-project-1305152720.cos.ap-beijing.myqcloud.com/algorithm-teaching-platform/video/merge-sort.mp4",
 			// markdownTitle
 			markdownTitle: "归并排序",
 			markdownUrl: "./md/MergeSort.md",
