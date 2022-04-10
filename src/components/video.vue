@@ -45,8 +45,6 @@ export default {
 				volume: 0.6,
 				rotateFullscreen: true,
 				errorTips: `请<span>刷新</span>试试`,
-				playsinline: false,
-				"x5-video-player-type": "h5",
 				// fluid: true,
 				playbackRate: [0.5, 0.75, 1, 1.5, 2],
 				defaultPlaybackRate: 1,
@@ -54,10 +52,14 @@ export default {
 				pip: true, //打开画中画功能
 			});
 		},
+		// 销毁实例
+		destroyPlayer() {
+			this.Player.destroy(true);
+		},
 	},
 	// 销毁视频实例
 	destroyed() {
-		this.getVideo();
+		this.destroyPlayer();
 	},
 };
 </script>
