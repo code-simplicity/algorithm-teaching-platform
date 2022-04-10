@@ -1,10 +1,11 @@
 <template>
 	<div class="select-box">
-		<el-collapse class="select-info">
-			<el-collapse-item title="顺序查找">
-				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
-			</el-collapse-item>
-		</el-collapse>
+		<div class="select-info">
+			<Markdown
+				:markdownTitle="markdownTitle"
+				:markdownUrl="markdownUrl"
+			></Markdown>
+		</div>
 		<div class="el-main-box">
 			<el-divider content-position="left">无序链表</el-divider>
 			<el-row>
@@ -33,7 +34,7 @@
 							:loading="intervalID !== -1"
 							@click="get"
 							type="primary"
-							>获取</el-button
+							>查找</el-button
 						>
 					</el-input>
 				</el-col>
@@ -54,18 +55,19 @@
 import Item from "./Item";
 import SerachFooter from "../modules/SerachFooter";
 import { Node } from "./node";
-import { MarkdownPro } from "vue-meditor";
+import Markdown from "../../markdown.vue";
 export default {
 	name: "SequentialSearch",
 	components: {
 		Item,
 		SerachFooter,
-		MarkdownPro,
+		Markdown,
 	},
 	data() {
 		return {
-			// markdow内容
-			htmlMD: "",
+			// markdownTitle
+			markdownTitle: "链表顺序查找",
+			markdownUrl: "./md/SequentialSearch.md",
 			first: null,
 			put_key: "",
 			put_val: "",
@@ -76,29 +78,51 @@ export default {
 			item: null,
 			codeDataLsit: [
 				`// 顺序查找
-private Node first;
-private class Node {
-    Key key;
-    Value val;
-    Node next;
-    public Node(Key key, Value val, Node next) {
-        this.key = key;
-        this.val = val;
-        this.next = next;
-    }
-}
-public Value get(Key key) {
-    for (Node x = first; x != null; x = x.next)
-        if (key.equals(x.key)) return x.val;
-    return null;
-}
-public void put(Key key, Value val) {
-    for (Node x = first; x != null; x = x.next)
-        if (key.equals(x.key)) {
-            x.val = val;
-            return
+public class SequelSearch<Key, Value> {
+    private Node first;
+
+    private class Node {
+        Key key;
+        Value val;
+        Node next;
+
+        public Node(Key key, Value val, Node next) {
+            this.key = key;
+            this.val = val;
+            this.next = next;
         }
-    first = new Node(key, val, first);
+    }
+
+    /**
+     * 获取链表
+     *
+     * @param key
+     * @return
+     */
+    public Value get(Key key) {
+        for (Node x = first; x != null; x = x.next) {
+            if (key.equals(first.key)) {
+                return x.val;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 添加链表的key和value
+     *
+     * @param key
+     * @param val
+     */
+    public void put(Key key, Value val) {
+        for (Node x = first; x != null; x = x.next) {
+            if (key.equals(x.key)) {
+                x.val = val;
+                return;
+            }
+        }
+        first = new Node(key, val, first);
+    }
 }`,
 			],
 		};

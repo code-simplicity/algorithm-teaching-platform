@@ -1,10 +1,11 @@
 <template>
 	<div class="select-box">
-		<el-collapse class="select-info">
-			<el-collapse-item title="二分查找">
-				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
-			</el-collapse-item>
-		</el-collapse>
+		<div class="select-info">
+			<Markdown
+				:markdownTitle="markdownTitle"
+				:markdownUrl="markdownUrl"
+			></Markdown>
+		</div>
 		<div class="el-main-box">
 			<el-divider content-position="left">二分查找</el-divider>
 			<el-row
@@ -141,15 +142,18 @@
 <script>
 import SerachFooter from "../modules/SerachFooter";
 import { compareTo } from "../../../util/util";
-import { MarkdownPro } from "vue-meditor";
+import Markdown from "../../markdown.vue";
 export default {
 	name: "BinarySearch",
 	components: {
 		SerachFooter,
-		MarkdownPro,
+		Markdown,
 	},
 	data() {
 		return {
+			// markdownTitle
+			markdownTitle: "链表二分查找",
+			markdownUrl: "./md/BinarySearchST.md",
 			keys: [],
 			vals: [],
 			put_key: "",

@@ -1,10 +1,11 @@
 <template>
 	<div class="select-box">
-		<el-collapse class="select-info">
-			<el-collapse-item title="二分查找">
-				<MarkdownPro :value="htmlMD" theme="dark"></MarkdownPro>
-			</el-collapse-item>
-		</el-collapse>
+		<div class="select-info">
+			<Markdown
+				:markdownTitle="markdownTitle"
+				:markdownUrl="markdownUrl"
+			></Markdown>
+		</div>
 		<div class="el-main-box">
 			<el-divider content-position="left">二叉树</el-divider>
 			<Item node="root" v-if="root" :key="mainKey" />
@@ -124,16 +125,19 @@
 import SerachFooter from "../modules/SerachFooter";
 import { compareTo } from "../../../util/util";
 import Item from "./modules/Item";
-import { MarkdownPro } from "vue-meditor";
+import Markdown from "../../markdown.vue";
 export default {
 	name: "BST",
 	components: {
 		SerachFooter,
 		Item,
-		MarkdownPro,
+		Markdown,
 	},
 	data() {
 		return {
+			// markdownTitle
+			markdownTitle: "二叉搜索树",
+			markdownUrl: "./md/BST.md",
 			root: null,
 			put_key: "",
 			put_val: "",
@@ -149,24 +153,92 @@ export default {
 			intervalID: -1,
 			N: 0,
 			current: {},
-			// htmlMD
-			htmlMD: "",
 			// 代码
 			codeDataLsit: [
-				`// 二分查找
-public static int recursionBinarySearch(int[] arr, int key, int low, int high) {
-    if (key < arr[low] || key > arr[high] || low > high) {
-        return -1;
+				`// 二叉搜索树
+static class TreeNode {
+    int val;
+    TreeNode left, right;
+
+    public TreeNode(int val) {
+        this.val = val;
     }
-    int middle = (low + high) / 2;          //初始中间位置
-    if (arr[middle] > key) {
-        //比关键字大则关键字在左区域
-        return recursionBinarySearch(arr, key, low, middle - 1);
-    } else if (arr[middle] < key) {
-        //比关键字小则关键字在右区域
-        return recursionBinarySearch(arr, key, middle + 1, high);
-    } else {
-        return middle;
+}
+
+public TreeNode root;
+
+public BinarySearchTree(int val) {
+    root = new TreeNode(val);
+}
+
+public static void main(String[] args) {
+    int[] arr = new int[10];
+    for (int i = 0; i < arr.length; i++) {
+        arr[i] = (int) (Math.random() * 100);
+    }
+    BinarySearchTree bst = new BinarySearchTree(arr[0]);
+    for (int i = 1; i < arr.length; i++) {
+        bst.insert(arr[i]);
+    }
+    System.out.println("原始数组：\n" + Arrays.toString(arr));
+    System.out.println("BST的中序遍历：");
+    BinarySearchTree.inner(bst.root);
+    bst.delete(arr[0]);
+    System.out.println();
+    System.out.println("删除节点" + arr[0] + "后BST的中序遍历：");
+    BinarySearchTree.inner(bst.root);
+}
+
+/**
+ * 二叉树的中序遍历
+ *
+ * @param root 根节点
+ */
+public static void inner(TreeNode root) {
+    if (root != null) {
+        inner(root.left);
+        System.out.print(root.val + " ");
+        inner(root.right);
+    }
+}
+
+/**
+ * 查找
+ *
+ * @param key 关键字
+ * @return
+ */
+public boolean find(int key) {
+    for (TreeNode node = root;
+         node != null;
+         node = node.val > key ? node.left : node.right) {
+        if (node.val == key) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * 插入
+ *
+ * @param val 要插入的节点值
+ */
+public void insert(int val) {
+    for (TreeNode node = root; ; ) {
+        if (node.val > val) {
+            if (node.left == null) {
+                node.left = new TreeNode(val);
+                return;
+            }
+            node = node.left;
+        } else {
+            if (node.right == null) {
+                node.right = new TreeNode(val);
+                return;
+            }
+            node = node.right;
+        }
     }
 }`,
 			],
