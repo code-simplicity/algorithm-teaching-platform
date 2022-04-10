@@ -55,7 +55,10 @@ export default {
 			});
 		},
 	},
-	components: {},
+	// 销毁视频实例
+	destroyed() {
+		this.getVideo();
+	},
 };
 </script>
 
