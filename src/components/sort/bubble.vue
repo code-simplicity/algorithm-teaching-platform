@@ -2,7 +2,7 @@
  * @Author: bugdr
  * @Date: 2022-04-09 17:35:12
  * @LastEditors: bugdr
- * @LastEditTime: 2022-04-09 17:35:17
+ * @LastEditTime: 2022-04-10 09:21:11
  * @FilePath: \algorithm-teaching-platform\src\components\sort\bubble.vue
  * @Description: 冒泡排序
 -->
@@ -36,7 +36,7 @@
 				:key="menuKey"
 				:current="current"
 				:items="items"
-				method="insert"
+				method="bubble"
 				:demo-tag="demoTag"
 				:sort-state="sortState"
 			/>
@@ -44,7 +44,7 @@
 		<div class="el-footer-box">
 			<SortFooter
 				:text-arr="textArr"
-				method="insert"
+				method="bubble"
 				:codeDataLsit="codeDataLsit"
 				:current="current"
 				:line="line"
@@ -76,11 +76,13 @@ export default {
 			markdownTitle: "冒泡排序",
 			markdownUrl: "./md/BubbleSort.md",
 			line: 0,
+			// 重置j
 			resetj: false,
 			demoTag: [
 				{ text: "未排序元素", type: "info" },
 				{ text: "比较元素", type: "danger" },
-				{ text: "外循环元素", type: "warning" },
+				{ text: "交换元素", type: "warning" },
+				{ text: "已排序元素", type: "success" },
 			],
 			menuKey: 1,
 			//当前值
@@ -141,7 +143,18 @@ public static void bubbleSort1(int[] a, int n) {
 			],
 		};
 	},
-	computed: {},
+	computed: {
+		//是否排序完成
+		isSort() {
+			return this.sortState === 3;
+		},
+		hasAnimation() {
+			return this.$store.state.hasAnimation;
+		},
+		lineNum() {
+			return this.$store.state.lineNum;
+		},
+	},
 	created() {},
 	mounted() {},
 	watch: {},
@@ -160,10 +173,14 @@ public static void bubbleSort1(int[] a, int n) {
 				this.step();
 			}, 1000 - this.intervalTime * 10);
 		},
-		// 开始进行
+
+		// 下一步
 		step: function () {
+			// 当前内外循环下标
 			let current = this.current;
+			// 当前的行
 			let line = this.line;
+			// 当前数组长度
 			const length = this.items.length;
 			if (length <= 0) {
 				this.$message({
@@ -182,13 +199,14 @@ public static void bubbleSort1(int[] a, int n) {
 				this.items.forEach((value, index) =>
 					this.$set(this.oldArr, index, value)
 				);
+				// 开始line为1.1
 				this.line = 1.1;
 			} else if (this.sortState === 1) {
 				//开始排序状态
 
-				//设置当前值
-				if (this.line === 1) {
-				} else if (this.line === 2) {
+				//设置当前值，判断当前的行是否等于2，等于2就进行排序
+				if (this.line === 2.1) {
+					current.inner = 0;
 					this.resetj = true;
 					//设置排序状态为排序中
 					this.sortState = 2;
@@ -198,14 +216,18 @@ public static void bubbleSort1(int[] a, int n) {
 			} else if (this.sortState === 2) {
 				//排序中
 				switch (line) {
+					// 给外层循环小标赋初值
 					case 1.1:
-						current.outside = 1;
+						current.outside = length - 1;
 						this.line = 1.2;
-						this.menuKey++;
 						break;
 					case 1.2:
-						//判断外循环
-						if (current.outside < length) {
+						this.line = 1.3;
+						this.menuKey++;
+						break;
+					case 1.3:
+						//判断外循环下标是否大于0
+						if (current.outside > 0) {
 							this.line = 2.1;
 						} else {
 							//外循环结束
@@ -222,49 +244,67 @@ public static void bubbleSort1(int[] a, int n) {
 						}
 						this.menuKey++;
 						break;
-					case 1.3:
-						current.outside++;
+					case 1.4:
+						// 外循环下标减
+						current.outside--;
 						this.line = 1.2;
 						this.menuKey++;
 						break;
 					case 2.1:
-						current.inner = current.outside;
+						// 给内层下标设置初始值为0
+						current.inner = 0;
 						this.line = 2.2;
-						this.menuKey++;
 						break;
 					case 2.2:
-						if (current.inner > 0) {
-							this.line = 2.3;
+						// 判断内循环的下标是否小于外循环的,如果为真，进入2.2
+						if (current.inner < current.outside) {
+							this.line = 2.4;
 						} else {
-							this.line = 1.3;
+							this.line = 1.4;
 						}
 						this.menuKey++;
 						break;
 					case 2.3:
-						if (
-							less(this.items[current.inner], this.items[current.inner - 1])
-						) {
-							this.textArr.unshift("当前值小于前一个值");
-							this.line = 3;
-						} else {
-							this.textArr.unshift("当前值不小于前一个值");
-							this.line = 1.3;
-						}
-						this.menuKey++;
-						break;
-					case 2.4:
-						current.inner--;
+						// 内层循环下标++
+						current.inner++;
+						// 进入2.1
 						this.line = 2.2;
 						this.menuKey++;
 						break;
+					case 2.4:
+						// 判断相邻两个元素直接的值的大小关系，如果是第一个大于第二个，那么交换位置，否者继续走到2.1
+						if (
+							less(this.items[current.inner], this.items[current.inner + 1])
+						) {
+							this.textArr.unshift(
+								`当前值：${this.items[current.inner]},下一个值：${
+									this.items[current.inner + 1]
+								},当前值小于下一个值`
+							);
+							this.line = 2.3;
+						} else {
+							// 交换元素
+							this.textArr.unshift(
+								`当前值：${this.items[current.inner]},下一个值：${
+									this.items[current.inner + 1]
+								},当前值不小于下一个值`
+							);
+							this.line = 3;
+						}
+						this.menuKey++;
+						break;
+
 					case 3:
 						this.textArr.unshift("交换数据");
 						if (this.hasAnimation) {
-							this.animation(current.inner - 1, current.inner);
+							// 下一个值和当前值交换动作
+							this.animation(current.inner, current.inner + 1);
 						} else {
-							exch(this.items, current.inner - 1, current.inner);
+							// 交换位置
+							exch(this.items, current.inner, current.inner + 1);
 							this.menuKey++;
-							this.line = 2.4;
+							// 返回2.3进行内层++
+							this.line = 2.3;
 						}
 						break;
 				}
@@ -353,6 +393,11 @@ public static void bubbleSort1(int[] a, int n) {
 		},
 		// 改变位置
 		animation(a, b) {
+			let current = this.current;
+			if (a === b) {
+				this.line = 1;
+				return;
+			}
 			this.stop();
 			//a所在的行
 			const a_row = Math.floor(a / this.lineNum);
@@ -372,7 +417,7 @@ public static void bubbleSort1(int[] a, int n) {
 			draggable_b.top -= 10 + (b_row - a_row) * 52;
 			let conut = 1;
 			const row = (b_col - a_col) * 65;
-			this.intervalIDanimation = setInterval(() => {
+			const ina = setInterval(() => {
 				if (conut === 10) {
 					draggable_a.left += row - 9 * Math.floor(row / 10);
 					draggable_b.left -= row - 9 * Math.floor(row / 10);
@@ -380,18 +425,18 @@ public static void bubbleSort1(int[] a, int n) {
 					draggable_b.top += 10;
 					draggable_a.remove();
 					draggable_b.remove();
-					exch(this.items, a, b);
-					this.line = 2.4;
+					//交换
+					exch(this.items, current.outside, current.min);
+					this.line = 1;
 					this.menuKey++;
-					clearInterval(this.intervalIDanimation);
-					this.intervalIDanimation = "";
+					clearInterval(ina);
 					this.sort();
 				} else {
 					draggable_a.left += Math.floor(row / 10);
 					draggable_b.left -= Math.floor(row / 10);
 					conut++;
 				}
-			}, 90 - this.intervalTime);
+			}, 100 - this.intervalTime);
 		},
 	},
 };

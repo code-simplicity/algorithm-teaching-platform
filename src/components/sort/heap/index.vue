@@ -27,7 +27,8 @@
 				<el-tag
 					:size="getSize()"
 					style="margin: 10px"
-					v-for="tag in demoTag"
+					v-for="(tag, index) in demoTag"
+					:key="index"
 					:type="tag.type"
 					effect="dark"
 					>{{ tag.text }}</el-tag

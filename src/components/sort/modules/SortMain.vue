@@ -5,7 +5,8 @@
 			<el-tag
 				:size="getSize()"
 				class="el-style-tag"
-				v-for="tag in demoTag"
+				v-for="(tag, index) in demoTag"
+				:key="index"
 				:type="tag.type"
 				effect="dark"
 				size="medium"
@@ -159,6 +160,22 @@ export default {
 						return "warning";
 					} else {
 						return "info";
+					}
+				}
+			} else if (this.method === "bubble") {
+				if (this.sortState === 0) {
+					return "info";
+				} else if (this.sortState === 3) {
+					return "success";
+				} else {
+					if (index === this.current.inner + 1) {
+						return "warning";
+					} else if (index === this.current.inner) {
+						return "danger";
+					} else if (index < this.current.outside) {
+						return "info";
+					} else {
+						return "success";
 					}
 				}
 			}
