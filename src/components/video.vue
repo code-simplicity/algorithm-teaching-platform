@@ -1,3 +1,11 @@
+<!--
+ * @Author: bugdr
+ * @Date: 2022-04-10 13:37:39
+ * @LastEditors: bugdr
+ * @LastEditTime: 2022-04-11 12:17:16
+ * @FilePath: \algorithm-teaching-platform\src\components\video.vue
+ * @Description: 
+-->
 <template>
 	<el-row>
 		<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
@@ -6,7 +14,7 @@
 					<span>视频教程</span>
 				</div>
 				<div class="consoleDiv">
-					<div style="height: 100%; width: 100%" id="video"></div>
+					<div id="video"></div>
 				</div>
 			</el-card>
 		</el-col>
@@ -43,7 +51,7 @@ export default {
 				url: this.videoUrl,
 				fitVideoSize: "auto",
 				volume: 0.6,
-				rotateFullscreen: true,
+				// rotateFullscreen: true,
 				errorTips: `请<span>刷新</span>试试`,
 				// fluid: true,
 				playbackRate: [0.5, 0.75, 1, 1.5, 2],
@@ -72,6 +80,10 @@ export default {
 		align-items: center;
 		justify-content: center;
 		// width: 100%;
+		.video {
+			width: 100%;
+			height: 100%;
+		}
 	}
 }
 </style>
