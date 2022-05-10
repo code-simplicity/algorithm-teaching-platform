@@ -1,0 +1,68 @@
+/**
+ * @Author: bugdr
+ * @description: 全局css
+ * @param {*}
+ * @return {*}
+ */
+html,
+body,
+#app {
+	/* padding: 0 0 10px 0; */
+	margin: 0;
+	background: #e6e6e7;
+	font-size: 16px;
+}
+
+.el-header {
+	padding: 0;
+}
+
+/* —滚动条默认显示样式– */
+::-webkit-scrollbar {
+	width: 4px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #ababab;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+	border-radius: 10px;
+	background-color: #fff;
+}
+
+.select-info {
+	/deep/.el-collapse-item__header {
+		padding: 0 10px;
+		font-size: 14px;
+	}
+	/deep/.el-collapse-item__content {
+		padding: 0 16px;
+	}
+}
+
+.animation-container {
+	background: #536976;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #292E49, #536976);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #292E49, #536976); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    border-radius: 6px;
+	padding: 16px;
+}
+
+.color-white {
+	color: #fff;
+}
+
+.flex {
+    display: flex;
+    width: 100%;
+}
+.flex-layout {
+    flex: 1;
+}
+
+.margin-right-20 {
+    margin-right: 20px;
+}
