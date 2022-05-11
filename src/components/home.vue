@@ -1,6 +1,6 @@
 <template>
 	<el-container id="app" ref="app">
-		<el-header class="home-header-box">
+		<el-header class="home-header-box" ref="headerRef">
 			<el-menu
 				background-color="#fff"
 				text-color="#000"
@@ -15,7 +15,7 @@
 
 				<!-- 菜单列表 -->
 				<el-menu-item
-					v-show="!dropDownShow"
+					v-show="!isDropDownShow"
 					v-for="(item, index) in sortNavItem"
 					:key="index"
 					:index="item.path"
@@ -26,7 +26,7 @@
 					</template>
 				</el-menu-item>
 				<!-- 下拉菜单 -->
-				<el-submenu v-show="dropDownShow" index="">
+				<el-submenu v-show="isDropDownShow" index="">
 					<template slot="title">{{ subMenuTitle }}</template>
 					<el-menu-item
 						v-for="(item, index) in sortNavItem"
@@ -79,8 +79,6 @@ export default {
 			size: "300",
 			// 排序菜单
 			sortNavItem: [],
-			// 下拉菜单的显示
-			dropDownShow: false,
 			// 获取屏幕的宽度，进行判断
 			windowWidth: document.body.clientWidth,
 			// 默认title
@@ -104,21 +102,29 @@ export default {
 				}
 			});
 		},
+		// 监听屏幕宽度的变化
+		windowWidthChange() {
+			this.windowWidth = document.body.clientWidth;
+			if (this.windowWidth > 1200) {
+				this.$store.dispatch("changeDropDownShow", false);
+			} else {
+				this.$store.dispatch("changeDropDownShow", true);
+			}
+		},
 	},
 	watch: {
 		// 观察屏幕宽度的变化,使得值变化
 		windowWidth(newVal) {
-			this.dropDownShow = newVal > 1200 ? false : true;
 			this.windowWidth = newVal;
 		},
 	},
 	mounted() {
 		// 获取菜单
 		this.sortNavItem = this.$router.options.routes[1].children;
-		// 当浏览器视图变化之后
-		window.onresize = () => {
-			this.windowWidth = document.body.clientWidth;
-		};
+		// 使用该方法解决屏幕宽度路由切换不响应的bug
+		window.addEventListener("resize", () => {
+			this.windowWidthChange();
+		});
 		// 获取页面宽度
 		const mainWidth = this.$refs.main.$el.clientWidth;
 		//计算每行会有几个元素
@@ -144,12 +150,9 @@ export default {
 			// 根据路径绑定到对应的一级菜单，防止页面刷新重新跳回第一个
 			return "/" + this.$route.path.split("/")[1];
 		},
-		// 页面大小变化之后返回判断是否需要显示对应的菜单项
-		// dropDownShow: {
-		// 	get() {
-		// 		return this.windowWidth > 1400 ? false : true;
-		// 	},
-		// },
+		isDropDownShow() {
+			return this.$store.state.dropDownShow;
+		},
 	},
 };
 </script>

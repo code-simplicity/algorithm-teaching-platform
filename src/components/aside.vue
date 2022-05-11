@@ -1,5 +1,5 @@
 <template>
-	<el-aside :width="isCollapse ? '56px' : '200px'" class="aside-container">
+	<el-aside :width="isCollapse ? '60px' : '200px'" class="aside-container">
 		<div @click="toggleCollapse" class="aside-collapse">
 			<div v-show="isCollapse">
 				<i class="el-icon-s-unfold"> </i>
@@ -25,10 +25,8 @@
 				:index="item.path"
 				router
 			>
-				<template slot="title">
-					<i class="icon-color" :class="item.meta.icon"></i>
-					<span>{{ item.meta.title }}</span>
-				</template>
+				<i class="icon-color" :class="item.meta.icon"></i>
+				<span>{{ item.meta.title }}</span>
 			</el-menu-item>
 		</el-menu>
 	</el-aside>
@@ -54,10 +52,6 @@ export default {
 			// 根据路径绑定到对应的二级菜单，防止页面刷新重新跳回第一个
 			return this.$route.path.split("/")[2];
 		},
-		// 控制菜单栏的显示
-		isShowMenu() {
-			return this.clientWidth > 1200 ? false : true;
-		},
 	},
 	watch: {
 		// 观察屏幕的变化，收缩菜单栏
@@ -68,9 +62,9 @@ export default {
 	},
 
 	mounted() {
-		window.onresize = () => {
+		window.addEventListener("resize", () => {
 			this.clientWidth = document.body.clientWidth;
-		};
+		});
 	},
 	methods: {
 		// 切换收缩
@@ -95,9 +89,9 @@ export default {
 		font-size: 16px;
 		margin-bottom: 6px;
 	}
-	.el-menu-vertical-demo {
+	/deep/.el-menu-vertical-demo {
 		font-size: 18px;
-		text-align: center;
+		// text-align: center;
 		.icon-color {
 			color: #ffffff;
 			margin-right: 16px;
@@ -106,6 +100,10 @@ export default {
 		.el-menu-item.is-active {
 			background: #e4d6f5 !important;
 			background: linear-gradient(to right, #425255, #555457) !important;
+		}
+		&:not(.el-menu--collapse) {
+			width: 200px;
+			min-height: 200px;
 		}
 	}
 }
